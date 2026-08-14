@@ -1,0 +1,141 @@
+:root {
+  --color-brand: #b15c2a;
+  --color-brand-dark: #914128;
+  --color-primary: #3a4f6a;
+  --color-accent: #5c7494;
+  --color-accent-light: #e9eef4;
+  --color-text: #242424;
+  --color-muted: #808080;
+  --color-border: #dedede;
+  --color-bg: #ffffff;
+  --color-bg-soft: #f2f2f2;
+  --color-mark: #ced9e7;
+  --color-mark-text: #3a4f6a;
+  --color-stars: #d59c3f;
+  --radius: 8px;
+  --font: var(--font-nunito), "Inter Tight", Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  color: var(--color-text);
+  background: var(--color-bg);
+  font-family: var(--font);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+button {
+  font-family: inherit;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: inherit;
+}
+
+input,
+textarea,
+select {
+  font-family: inherit;
+}
+
+/* Container */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 600;
+  border-radius: var(--radius);
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  font-size: 14px;
+  line-height: 1.2;
+  padding: 12px 24px;
+  white-space: normal;
+  text-align: center;
+}
+
+.btn-primary {
+  background: var(--color-accent);
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: var(--color-primary);
+}
+
+.btn-light {
+  background: #fff;
+  color: var(--color-text);
+}
+
+.btn-light:hover {
+  background: var(--color-bg-soft);
+}
+
+.btn-dark {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.btn-dark:hover {
+  background: #2e3f55;
+}
+
+/* Typography helpers */
+.h-section {
+  font-size: 36px;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+@media (max-width: 640px) {
+  .h-section {
+    font-size: 24px;
+  }
+}
+
+.d-section {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--color-muted);
+  max-width: 560px;
+}
+
+/* Section spacing */
+.section {
+  padding: 60px 0;
+}
+
+.section-sm {
+  padding: 40px 0;
+}

@@ -1,0 +1,71 @@
+<!-- RECORD rec1480418391 TYPE 131 -->
+<div id="rec1480418391" class="r t-rec" style=" " data-animationappear="off" data-record-type="131"> <!-- T123 --> <div class="t123"> <div class="t-container_100 "> <div class="t-width t-width_100 "> <!-- nominify begin --> <style>
+    
+    .day {
+        font-family: "Inter Tight";
+        font-size: 12px;
+        font-weight: 500;
+    }
+    
+    .hour {
+        font-family: "Inter Tight";
+        font-size: 12px;
+        font-weight: 500;
+    }
+    
+    .minute {
+        font-family: "Inter Tight";
+        font-size: 12px;
+        font-weight: 500;
+    }
+    
+    .second {
+        font-family: "Inter Tight";
+        font-size: 12px;
+        font-weight: 500;
+    }
+    
+</style> <script>
+document.addEventListener('DOMContentLoaded', function() {
+  // === УСТАНОВИ ДАТУ ОКОНЧАНИЯ ТАЙМЕРА ===
+  // Формат: ГГГГ, ММ, ДД, ЧЧ, ММ, СС
+  // Пример: 2025, 11, 29, 23, 59, 59 — до 29 ноября 2025, 23:59:59
+  const deadline = new Date(2025, 10, 8, 23, 59, 59).getTime();
+
+  // Элементы на странице
+  const dayEl = document.querySelector('.day');
+  const hourEl = document.querySelector('.hour');
+  const minuteEl = document.querySelector('.minute');
+  const secondEl = document.querySelector('.second');
+
+  if (!dayEl || !hourEl || !minuteEl || !secondEl) return;
+
+  // Обновление каждую секунду
+  const timer = setInterval(function() {
+    const now = new Date().getTime();
+    const diff = deadline - now;
+
+    // если время вышло
+    if (diff <= 0) {
+      clearInterval(timer);
+      dayEl.textContent = '0';
+      hourEl.textContent = '0';
+      minuteEl.textContent = '0';
+      secondEl.textContent = '0';
+      return;
+    }
+
+    // расчёт оставшегося времени
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+    // выводим значения
+    dayEl.textContent = days;
+    hourEl.textContent = hours.toString().padStart(2, '0');
+    minuteEl.textContent = minutes.toString().padStart(2, '0');
+    secondEl.textContent = seconds.toString().padStart(2, '0');
+  }, 1000);
+});
+</script> <!-- nominify end --> </div> </div> </div> </div> 

@@ -1,0 +1,89 @@
+<!-- RECORD rec1452836751 TYPE 131 -->
+<div id="rec1452836751" class="r t-rec" style=" " data-animationappear="off" data-record-type="131"> <!-- T123 --> <div class="t123"> <div class="t-container_100 "> <div class="t-width t-width_100 "> <!-- nominify begin --> <style>
+
+/* Контейнер вариантов */
+.js-product .t-product__option .t-product__option-variants_custom {
+  display: flex;
+  flex-wrap: nowrap; /* все в одну линию */
+  overflow-x: auto; /* горизонтальная прокрутка */
+  scroll-behavior: smooth; /* плавность */
+  gap: 4px;
+  padding: 4px 4px 10px;
+  -webkit-overflow-scrolling: touch;
+
+  /* прячем скроллбар */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE и Edge */
+}
+.js-product .t-product__option .t-product__option-variants_custom::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+/* Элементы (миниатюры цвета) */
+.js-product .t-product__option-variant {
+  flex: 0 0 auto;
+  width: 42px;
+  height: 42px;
+  border-radius: 4px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+/* Наведение и активное состояние */
+.js-product .t-product__option-variant:hover {
+  transform: translateY(-2px);
+}
+.js-product .t-product__option-variant.t-product__option-variant_selected {
+  border: 2px solid #000;
+}
+
+/* Мобильные размеры */
+@media (max-width: 640px) {
+  .js-product .t-product__option .t-product__option-variants_custom {
+    gap: 4px;
+  }
+  .js-product .t-product__option-variant {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+/* Кнопки с цветами */
+
+.js-product .t-product__option-variants_buttons .t-product__option-input:checked+.t-product__option-checkmark_image:before {
+    border: 1px solid #3a4f6a;
+    border-radius: 8px;
+}
+
+.js-product .t-product__option-variants_buttons .t-product__option-checkmark_image {
+    border: 1px solid #dedede;
+    border-radius: 4px;
+    width: 44px !important;
+    height: 44px !important;
+}
+
+@media screen and (max-width: 1200px) {
+.js-product .t-product__option-variants_buttons .t-product__option-checkmark_image {
+    border: 1px solid #dedede;
+    border-radius: 4px;
+    width: 40px !important;
+    height: 40px !important;
+}
+}
+
+@media screen and (max-width: 640px) {
+.js-product .t-product__option-variants_buttons .t-product__option-checkmark_image {
+    border: 1px solid #dedede;
+    border-radius: 4px;
+    width: 52px !important;
+    height: 52px !important;
+}
+}
+
+.t-store .t-product__option-title {
+    display: none;
+}
+
+</style> <!-- nominify end --> </div> </div> </div> </div> 

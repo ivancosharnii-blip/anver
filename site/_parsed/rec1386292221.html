@@ -1,0 +1,107 @@
+<!-- RECORD rec1386292221 TYPE 131 -->
+<div id="rec1386292221" class="r t-rec" style=" " data-animationappear="off" data-record-type="131"> <!-- T123 --> <div class="t123"> <div class="t-container_100 "> <div class="t-width t-width_100 "> <!-- nominify begin --> <!-- Как сделать свою корзину в меню из ZeroBlock в Tilda mo-ti.ru --><script>
+document.addEventListener("DOMContentLoaded", function() {    
+    (function () {
+        const hideMode = false; //Скрыть-Показать пустую корзину - true-false
+
+        const cartcopyElem = document.querySelectorAll(".cartcopy_elem .tn-atom");
+        cartcopyElem.forEach(function (el, index) {
+            el.classList.add('cartcopy');   
+        });
+        
+        const cartpriceElem = document.querySelectorAll(".cartprice_elem .tn-atom");
+        cartpriceElem.forEach(function (el, index) {
+            el.classList.add('cartcopyprice');   
+        });
+        
+        function showCart(){
+            document.querySelectorAll('.cartcopy').forEach(el=>el.classList.add('show-cart'));
+            document.querySelectorAll('.cartcopyprice').forEach(el=>el.classList.add('show-cart'));  
+        };
+        
+        function checkCartTotal(){
+            if (window.tcart != undefined) {
+                if(!hideMode) showCart()
+                
+                const chCounter = window.tcart.total;
+                const chPrice = window.tcart.prodamount;
+                if  (chPrice==0){
+                    document.querySelectorAll('div[data-elem-type="text"] .cartcopyprice').forEach(el=>el.innerHTML='');
+                    if(hideMode) {
+                        document.querySelectorAll('.cartcopy').forEach(el=>el.classList.remove('show-cart'));
+                        document.querySelectorAll('.cartcopyprice').forEach(el=>el.classList.remove('show-cart'));
+                    }else{
+                        showCart();
+                    };
+               }else{ 
+                    document.querySelectorAll('div[data-elem-type="text"] .cartcopyprice').forEach(el=>el.innerHTML=chPrice+' руб');
+                    if(hideMode) showCart();
+               };
+
+               document.querySelectorAll('div[data-elem-type="text"] .cartcopy').forEach(el=>el.innerHTML=chCounter);
+               
+               if(chCounter==0){ 
+                   document.querySelectorAll('.cartcopy').forEach(el=>el.classList.add('blkElem'));
+                   
+               }else{ 
+                   document.querySelectorAll('.cartcopy').forEach(el=>el.classList.remove('blkElem'));
+               }; 
+              
+               if(chCounter=='') document.querySelectorAll('div[data-elem-type="text"] .cartcopy').forEach(el=>el.innerHTML=0);
+            };
+
+        };
+       
+        setTimeout(function(){
+            checkCartTotal();
+        }, 500);
+        
+        
+        const observer = new MutationObserver(mutationRecords => {
+            setTimeout(function(){
+               checkCartTotal();
+            }, 300);
+            document.querySelectorAll('div[data-elem-type="image"] .cartcopy').forEach(el=>el.classList.add('cartcopyanim'));
+            setTimeout(function(){ 
+                document.querySelectorAll('div[data-elem-type="image"] .cartcopy').forEach(el=>el.classList.remove('cartcopyanim'));
+            }, 1000);
+        });
+        
+        const carticonCounter  = document.querySelector('.t706__carticon-counter');
+        if(carticonCounter!=null){
+            observer.observe(carticonCounter, {
+                childList: true, 
+                subtree: true, 
+                characterDataOldValue: true
+            });
+        }else{
+            console.log('cart counter option not active');  
+        };
+        
+        const cartcopy = document.querySelectorAll(".cartcopy");
+        cartcopy.forEach(function (el, index) {
+            el.addEventListener('click',function(e) {
+                e.preventDefault();
+                tcart__openCart();
+            });    
+        });
+
+    })();    
+});	
+</script> <style>
+.blkElem{pointer-events:none; }
+.cartcopyanim {
+-webkit-animation: t706__pulse-anim 0.6s;
+animation: t706__pulse-anim 0.6s;}
+.cartcopy_elem .tn-atom , 
+.cartprice_elem .tn-atom {
+    opacity:0;
+    pointer-events: none;
+}
+.r .show-cart{
+    opacity: 1;
+    pointer-events: auto;
+}
+.cartcopy{cursor:pointer}
+.t706__carticon {display: none !important;} 
+</style> <!-- nominify end --> </div> </div> </div> </div> 

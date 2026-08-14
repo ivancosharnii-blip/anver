@@ -1,0 +1,170 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.card {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 20px 60px rgba(36, 36, 36, 0.15);
+}
+
+.close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--color-bg-soft);
+  font-size: 20px;
+  line-height: 1;
+}
+
+.body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.mainImage {
+  aspect-ratio: 1 / 1;
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--color-bg-soft);
+}
+
+.mainImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.thumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.thumb {
+  width: 64px;
+  height: 64px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 2px solid transparent;
+  cursor: pointer;
+}
+
+.thumbActive {
+  border-color: var(--color-accent, #5c7494);
+}
+
+.thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--color-text, #242424);
+}
+
+.priceRow {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.price {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--color-text, #242424);
+}
+
+.priceOld {
+  font-size: 16px;
+  color: #5c7494;
+  text-decoration: line-through;
+}
+
+.badge {
+  align-self: flex-start;
+  background: var(--color-mark, #ced9e7);
+  color: var(--color-mark-text, #3a4f6a);
+  font-size: 12px;
+  border-radius: 4px;
+  padding: 4px 8px;
+}
+
+.text {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--color-text, #242424);
+}
+
+.option {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.optionLabel {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text, #242424);
+}
+
+.optionValues {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.colorBtn {
+  padding: 8px 12px;
+  border: 1px solid var(--color-border, #dedede);
+  border-radius: 6px;
+  background: #fff;
+  font-size: 13px;
+  color: var(--color-text, #242424);
+}
+
+.colorBtnActive {
+  border-color: var(--color-accent, #5c7494);
+  background: var(--color-accent-light, #e9eef4);
+}
+
+.addBtn {
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .body {
+    grid-template-columns: 1fr;
+  }
+}

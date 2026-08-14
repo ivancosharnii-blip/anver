@@ -1,0 +1,10 @@
+Настрой все MCP-серверы и почини браузер. Я на Windows.
+
+1. Установи браузерный CLI глобально: npm i -g agent-browser. Проверь: agent-browser --version.
+2. Проверь Docker (нужен только для github): docker --version. Нет Docker — пропусти github.
+3. В папке .config/codent в домашнем каталоге создай mcp-servers.json — скопируй как основу файл config/mcp-servers.json.example из корня репо.
+4. Спроси меня, есть ли GitHub-токен. Если есть — впиши в .env в корне репо: GITHUB_PERSONAL_ACCESS_TOKEN=...
+5. Перезапусти: npm run app:stop, затем npm run app.
+6. Проверь статусы: GET http://localhost:8080/mcp-servers. Ожидания: context7 и agent-browser должны быть connected. Остальные могут быть failed без токенов — это нормально.
+7. Проверь браузер: GET http://localhost:8080/browser/status — не должно быть «binary not found».
+8. Отчитайся: что установил, какие серверы connected, какие failed и почему.

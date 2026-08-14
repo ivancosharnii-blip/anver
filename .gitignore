@@ -1,0 +1,17 @@
+# Инструменты агента / node_modules
+codent/
+node_modules/
+
+# Next.js
+.next/
+out/
+build/
+*.tsbuildinfo
+
+# Окружение
+.env*
+!.env.example
+
+# Прочее
+.DS_Store
+*.log
