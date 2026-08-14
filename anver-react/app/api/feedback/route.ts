@@ -52,23 +52,23 @@ export async function POST(request: Request) {
   }
 
   try {
-    const { data, error } = await supabase
-      .from("feedback")
-      .insert({
-        name,
-        contact,
-        message: message ?? null,
-        lang,
-      })
-      .select("id")
-      .single();
+    // id генерируем сами (crypto.randomUUID) и вставляем без .select():
+    // `return=representation` потребовал бы SELECT-политики RLS, которой нет
+    // (чтение сообщений анонимам закрыто — только INSERT).
+    const id = crypto.randomUUID();
+    const { error } = await supabase.from("feedback").insert({
+      id,
+      name,
+      contact,
+      message: message ?? null,
+      lang,
+    });
 
     if (error) {
       console.error("[api/feedback] ошибка записи в feedback:", error);
       return Response.json({ ok: false, error: "db_error" }, { status: 500 });
     }
 
-    const id = (data as { id?: string } | null)?.id ?? null;
     return Response.json({ ok: true, id });
   } catch (err) {
     console.error("[api/feedback] непредвиденная ошибка:", err);

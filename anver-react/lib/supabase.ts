@@ -23,15 +23,12 @@ export type SupabaseResult<T = unknown> = {
 
 /**
  * Минимальный интерфейс клиента — покрывает только используемые методы
- * (insert → select → single). Полные типы появятся после установки пакета.
+ * (insert без select: Prefer: return=minimal — не требует SELECT-политики RLS).
+ * Полные типы появятся после установки пакета.
  */
 export interface SupabaseClientLike {
   from(table: string): {
-    insert(values: Record<string, unknown>): {
-      select(columns?: string): {
-        single(): Promise<SupabaseResult>;
-      };
-    };
+    insert(values: Record<string, unknown>): Promise<SupabaseResult>;
   };
 }
 

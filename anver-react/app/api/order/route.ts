@@ -101,27 +101,27 @@ export async function POST(request: Request) {
   }
 
   try {
-    const { data, error } = await supabase
-      .from("orders")
-      .insert({
-        name,
-        contact,
-        method: method ?? null,
-        message: message ?? null,
-        total,
-        currency: "MDL",
-        lang,
-        items,
-      })
-      .select("id")
-      .single();
+    // id генерируем сами (crypto.randomUUID) и вставляем без .select():
+    // `return=representation` потребовал бы SELECT-политики RLS, которой нет
+    // (чтение заказов анонимам закрыто — только INSERT).
+    const id = crypto.randomUUID();
+    const { error } = await supabase.from("orders").insert({
+      id,
+      name,
+      contact,
+      method: method ?? null,
+      message: message ?? null,
+      total,
+      currency: "MDL",
+      lang,
+      items,
+    });
 
     if (error) {
       console.error("[api/order] ошибка записи в orders:", error);
       return Response.json({ ok: false, error: "db_error" }, { status: 500 });
     }
 
-    const id = (data as { id?: string } | null)?.id ?? null;
     return Response.json({ ok: true, id });
   } catch (err) {
     console.error("[api/order] непредвиденная ошибка:", err);
