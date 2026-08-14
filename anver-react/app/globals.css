@@ -85,18 +85,18 @@ select {
 }
 
 .btn-primary {
-  /* Терракота — фирменный цвет бренда (полоса скидок). Белый текст 4.74:1 (AA),
-     hover #914128 — 7:1 (AAA). Пилюля — мягкая «семейная» форма, как
-     «Конструктор белья» и панель категорий (30px). */
-  background: var(--color-brand);
+  /* Нейтральный тёмный — основной цвет текста бренда (#242424),
+     как кнопка «Конструктор белья». Белый текст ~15:1 (AAA).
+     Пилюля — мягкая «семейная» форма (30px), без цветовых ассоциаций. */
+  background: var(--color-text);
   color: #fff;
   border-radius: 30px;
-  box-shadow: 0 4px 14px rgba(177, 92, 42, 0.28);
+  box-shadow: 0 4px 14px rgba(36, 36, 36, 0.22);
 }
 
 .btn-primary:hover {
-  background: var(--color-brand-dark);
-  box-shadow: 0 6px 18px rgba(145, 65, 40, 0.32);
+  background: #000000;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28);
 }
 
 .btn-primary:active {
