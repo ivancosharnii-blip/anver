@@ -27,7 +27,25 @@ function ProductModalInner({
   const { addItem } = useCart();
   const { t, lang } = useLang();
   const [activeIdx, setActiveIdx] = useState(0);
-  const [selected, setSelected] = useState<Record<string, string>>({});
+
+  // Опция «Цвет» — единственная у всех товаров. Галерея нарезана по цветам
+  // строго последовательно (проверено по данным: 4/7/3/6 фото на цвет).
+  const colorOption =
+    product.json_options.find((o) => o.title.toLowerCase().includes("цвет")) ??
+    product.json_options[0];
+  const colors = colorOption?.values ?? [];
+  const perColor =
+    colors.length > 0
+      ? Math.round(product.gallery.length / colors.length)
+      : product.gallery.length;
+  const [selectedColor, setSelectedColor] = useState<string>(colors[0] ?? "");
+  const colorIdx = colors.indexOf(selectedColor);
+
+  // Фото ТОЛЬКО выбранной расцветки — чтобы в модалке не мелькали все цвета.
+  const colorGallery =
+    colorIdx >= 0 && perColor > 0
+      ? product.gallery.slice(colorIdx * perColor, (colorIdx + 1) * perColor)
+      : product.gallery;
 
   // Перевод товара на румынский (по uid)
   const ro = lang === "ro" ? productRo[product.uid] : undefined;
@@ -48,13 +66,13 @@ function ProductModalInner({
     return () => window.removeEventListener("keydown", handler);
   }, [onClose]);
 
-  const gallery = product.gallery.length > 0 ? product.gallery : [""];
+  const gallery = colorGallery.length > 0 ? colorGallery : [""];
   const mainImage = gallery[activeIdx];
 
-  const colorOption =
-    product.json_options.find((o) => o.title.toLowerCase().includes("цвет")) ??
-    product.json_options[0];
-  const selectedColor = colorOption ? selected[colorOption.title] : undefined;
+  const selectColor = (value: string) => {
+    setSelectedColor(value);
+    setActiveIdx(0);
+  };
 
   const handleAdd = () => {
     addItem(product, selectedColor);
@@ -111,31 +129,67 @@ function ProductModalInner({
                 dangerouslySetInnerHTML={{ __html: text }}
               />
             ) : null}
-            {product.json_options.map((option) => (
-              <div key={option.title} className={styles.option}>
-                <span className={styles.optionLabel}>{optionTitle(option.title)}</span>
-                <div className={styles.optionValues}>
-                  {option.values.map((value) => {
-                    const active = selected[option.title] === value;
+            {/* Карточки расцветок: превью + название (фото конкретного цвета) */}
+            {colorOption ? (
+              <div className={styles.option}>
+                <span className={styles.optionLabel}>
+                  {optionTitle(colorOption.title)}
+                </span>
+                <div className={styles.colorCards}>
+                  {colors.map((value, ci) => {
+                    const active = selectedColor === value;
+                    const preview = product.gallery[ci * perColor];
                     return (
                       <button
                         key={value}
                         type="button"
-                        className={`${styles.colorBtn} ${active ? styles.colorBtnActive : ""}`}
-                        onClick={() =>
-                          setSelected((prev) => ({
-                            ...prev,
-                            [option.title]: active ? "" : value,
-                          }))
-                        }
+                        className={`${styles.colorCard} ${
+                          active ? styles.colorCardActive : ""
+                        }`}
+                        onClick={() => selectColor(value)}
+                        aria-pressed={active}
                       >
-                        {value}
+                        {preview ? (
+                          <img
+                            className={styles.colorCardImg}
+                            src={preview}
+                            alt=""
+                            loading="lazy"
+                          />
+                        ) : null}
+                        <span className={styles.colorCardName}>{value}</span>
                       </button>
                     );
                   })}
                 </div>
               </div>
-            ))}
+            ) : null}
+            {product.json_options
+              .filter((o) => o !== colorOption)
+              .map((option) => (
+                <div key={option.title} className={styles.option}>
+                  <span className={styles.optionLabel}>
+                    {optionTitle(option.title)}
+                  </span>
+                  <div className={styles.optionValues}>
+                    {option.values.map((value) => {
+                      const active = selectedColor === value;
+                      return (
+                        <button
+                          key={value}
+                          type="button"
+                          className={`${styles.colorBtn} ${
+                            active ? styles.colorBtnActive : ""
+                          }`}
+                          onClick={() => selectColor(value)}
+                        >
+                          {value}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
             <button
               type="button"
               className={`btn btn-primary ${styles.addBtn}`}
