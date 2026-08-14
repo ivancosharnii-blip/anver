@@ -13,60 +13,8 @@ import MobileMenu from "./MobileMenu";
 // На каталог-страницах (rec1386247761): «Постель • Кухня (скоро) • Подарок • Распродажа (+до -50%) • Контакты».
 // Правые «пилюли»: корзина и язык — #f2f2f2, radius 8, высота 32px (rec1497155991).
 
-// Блок рейтинга rec1506370021: 98px, фон #ffffff, внизу полоса #e9eef4 30px,
-// «★★★★★» (#d59c3f, 14px) + «Уже больше 800 довольных клиентов!» (#3a4f6a, 12px), по центру.
-// В оригинале он фиксированный и выезжает при скролле; по ТЗ на главной — статичный блок
-// сразу после полосы скидок и перед шапкой.
-function RatingBar() {
-  const { t } = useLang();
-  return (
-    <div className="anver-rating" aria-hidden="false">
-      <style>{`
-        .anver-rating {
-          position: relative;
-          height: 98px;
-          background: #ffffff;
-        }
-        .anver-rating__inner {
-          position: absolute;
-          top: 72px;
-          left: 50%;
-          transform: translateX(-50%);
-          z-index: 1;
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          white-space: nowrap;
-        }
-        .anver-rating__stars {
-          color: #d59c3f;
-          font-size: 14px;
-          font-weight: 500;
-          line-height: 1.55;
-        }
-        .anver-rating__text {
-          color: #3a4f6a;
-          font-size: 12px;
-          font-weight: 500;
-          line-height: 1.55;
-        }
-        .anver-rating__strip {
-          position: absolute;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          height: 30px;
-          background: #e9eef4;
-        }
-      `}</style>
-      <div className="anver-rating__inner">
-        <span className="anver-rating__stars">★★★★★</span>
-        <span className="anver-rating__text">{t("home.rating")}</span>
-      </div>
-      <div className="anver-rating__strip" />
-    </div>
-  );
-}
+// Блок рейтинга rec1506370021 перенесён в components/HomePage.tsx — под hero-секцию главной
+// (по просьбе: надпись «800 довольных клиентов» не должна висеть над шапкой).
 
 export default function Header() {
   const ctx = useCart();
@@ -79,7 +27,6 @@ export default function Header() {
   return (
     <>
       <TopBanner />
-      {isHome ? <RatingBar /> : null}
 
       <header className="anver-hd">
         <style>{`

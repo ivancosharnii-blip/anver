@@ -47,6 +47,60 @@ const CONTACT_BUTTONS = [
   },
 ];
 
+// Блок рейтинга rec1506370021: 98px, фон #ffffff, внизу полоса #e9eef4 30px,
+// «★★★★★» (#d59c3f, 14px) + «Уже больше 800 довольных клиентов!» (#3a4f6a, 12px), по центру.
+// На главной стоит под hero-секцией (по просьбе — не над шапкой, а ниже).
+function RatingBar() {
+  const { t } = useLang();
+  return (
+    <div className="anv-rating" aria-hidden="false">
+      <style>{`
+        .anv-rating {
+          position: relative;
+          height: 98px;
+          background: #ffffff;
+        }
+        .anv-rating__inner {
+          position: absolute;
+          top: 72px;
+          left: 50%;
+          transform: translateX(-50%);
+          z-index: 1;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          white-space: nowrap;
+        }
+        .anv-rating__stars {
+          color: #d59c3f;
+          font-size: 14px;
+          font-weight: 500;
+          line-height: 1.55;
+        }
+        .anv-rating__text {
+          color: #3a4f6a;
+          font-size: 12px;
+          font-weight: 500;
+          line-height: 1.55;
+        }
+        .anv-rating__strip {
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          height: 30px;
+          background: #e9eef4;
+        }
+      `}</style>
+      <div className="anv-rating__inner">
+        <span className="anv-rating__stars">★★★★★</span>
+        <span className="anv-rating__text">{t("home.rating")}</span>
+      </div>
+      <div className="anv-rating__strip" />
+    </div>
+  );
+}
+
 export default function HomePage() {
   const { t } = useLang();
 
@@ -345,6 +399,9 @@ export default function HomePage() {
           ))}
         </div>
       </section>
+
+      {/* Рейтинг «800 довольных клиентов» — под hero (rec1506370021) */}
+      <RatingBar />
 
       {/* 2-4. Каталоги */}
       <CatalogSection
