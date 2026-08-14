@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { PhoneIcon, TelegramIcon, WhatsAppIcon, ViberIcon } from "./icons";
 import { useLang } from "@/context/LanguageContext";
+import { postJson } from "@/lib/post-json";
 
 // Форма из оригинального блока t718 (rec1409480781 в site/contacts.html).
 // Поля и тексты дословно из оригинала: «Удобный способ связи» (выбор
@@ -17,7 +19,32 @@ const methods = [
 
 export default function ContactForm() {
   const { t } = useLang();
+  const router = useRouter();
   const [method, setMethod] = useState<string>("phone");
+  const [sending, setSending] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (sending) return;
+
+    const fd = new FormData(e.currentTarget);
+    const payload = {
+      name: String(fd.get("Name") ?? ""),
+      contact: String(fd.get("contact") ?? ""),
+      message: String(fd.get("Textarea") ?? ""),
+    };
+
+    setSending(true);
+    // Отправляем в бэкенд (503 / сбой сети / таймаут не блокируют переход).
+    await postJson("/api/feedback", payload);
+    // Как раньше: параметры формы уходят в URL страницы /success.
+    const params = new URLSearchParams({
+      Name: payload.name,
+      contact: payload.contact,
+      Textarea: payload.message,
+    });
+    router.push(`/success?${params.toString()}`);
+  };
 
   const inputStyle: React.CSSProperties = {
     width: "100%",
@@ -31,7 +58,7 @@ export default function ContactForm() {
   };
 
   return (
-    <form action="/success" method="GET" style={{ display: "grid", gap: 16 }}>
+    <form onSubmit={handleSubmit} noValidate style={{ display: "grid", gap: 16 }}>
       <div>
         <div
           style={{
@@ -107,6 +134,7 @@ export default function ContactForm() {
       <div>
         <button
           type="submit"
+          disabled={sending}
           style={{
             color: "#ffffff",
             background: "#5c7494",
@@ -116,7 +144,8 @@ export default function ContactForm() {
             fontWeight: 500,
             fontSize: 16,
             padding: "12px 40px",
-            cursor: "pointer",
+            cursor: sending ? "default" : "pointer",
+            opacity: sending ? 0.6 : 1,
             transition: "background-color 0.2s ease",
           }}
           onMouseEnter={(e) => (e.currentTarget.style.background = "#3a4f6a")}

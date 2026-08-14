@@ -90,6 +90,11 @@ export const ru = {
     qtyDown: "Уменьшить количество",
     close: "Закрыть",
     thanks: "Спасибо! Ваш заказ принят, мы свяжемся с вами.",
+    namePlaceholder: "Ваше имя",
+    contactPlaceholder: "Телефон или username",
+    nameRequired: "Пожалуйста, укажите имя",
+    contactRequired: "Пожалуйста, укажите телефон или username",
+    sending: "Отправляем…",
   },
   modal: {
     addToCart: "Добавить в корзину",
@@ -214,6 +219,8 @@ export const ru = {
     scoreAria:
       "Какова вероятность что вы посоветуете нас вашим знакомым? (от 1 до 10)",
     nameAria: "Ваше имя",
+    contactAria: "Телефон или email",
+    contactPlaceholder: "Телефон или email",
     improveQuestion: "Что бы нам следовало улучшить?",
     optAllGood: "Все отлично, хороший сервис",
     optMaterials: "Качество материалов",
@@ -237,6 +244,7 @@ export const ru = {
     fixTitle: "Нужно что-то исправить?",
     fixText: "Если заметили ошибку в адресе, размере или контактах, сообщите нам как можно скорее.",
     phoneLabel: "Телефон:",
+    orderId: "Номер заказа",
     careTitle: "Уход за тканями",
     care: {
       ranforceTitle: "Уход за Ранфорсом",
@@ -369,6 +377,11 @@ export const ro = {
     qtyDown: "Micșorează cantitatea",
     close: "Închide",
     thanks: "Mulțumim! Comanda dvs. a fost acceptată, vă vom contacta.",
+    namePlaceholder: "Numele dvs.",
+    contactPlaceholder: "Telefon sau nume de utilizator",
+    nameRequired: "Vă rugăm să indicați numele",
+    contactRequired: "Vă rugăm să indicați telefonul sau numele de utilizator",
+    sending: "Se trimite…",
   },
   modal: {
     addToCart: "Adaugă în coș",
@@ -494,6 +507,8 @@ export const ro = {
     scoreAria:
       "Cât de probabil este să ne recomandați cunoscuților dumneavoastră? (de la 1 la 10)",
     nameAria: "Numele dumneavoastră",
+    contactAria: "Telefon sau e-mail",
+    contactPlaceholder: "Telefon sau e-mail",
     improveQuestion: "Ce am putea îmbunătăți?",
     optAllGood: "Totul este excelent, serviciu bun",
     optMaterials: "Calitatea materialelor",
@@ -517,6 +532,7 @@ export const ro = {
     fixTitle: "Trebuie corectat ceva?",
     fixText: "Dacă ați observat o eroare în adresă, dimensiune sau date de contact, anunțați-ne cât mai curând.",
     phoneLabel: "Telefon:",
+    orderId: "Numărul comenzii",
     careTitle: "Îngrijirea țesăturilor",
     care: {
       ranforceTitle: "Îngrijirea Ranforce",

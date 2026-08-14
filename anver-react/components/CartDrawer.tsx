@@ -1,10 +1,12 @@
 "use client";
 
-import type { CSSProperties } from "react";
+import { useState, type CSSProperties } from "react";
+import { useRouter } from "next/navigation";
 import { IMAGES } from "@/lib/site";
 import { formatPrice, useCart } from "@/context/CartContext";
 import { useLang } from "@/context/LanguageContext";
 import { productRo } from "@/lib/product-ro";
+import { postJson } from "@/lib/post-json";
 
 const overlayStyle: CSSProperties = {
   position: "fixed",
@@ -39,9 +41,70 @@ const qtyBtnStyle: CSSProperties = {
   lineHeight: 1,
 };
 
+const inputStyle: CSSProperties = {
+  width: "100%",
+  padding: "12px 16px",
+  background: "#f2f2f2",
+  borderRadius: 8,
+  border: "none",
+  color: "#242424",
+  fontSize: 16,
+  fontFamily: "var(--font)",
+  boxSizing: "border-box",
+};
+
+const errorStyle: CSSProperties = {
+  fontSize: 13,
+  color: "#b15c2a",
+  marginTop: 6,
+  fontFamily: "var(--font)",
+};
+
 export default function CartDrawer() {
   const ctx = useCart();
   const { t, lang } = useLang();
+  const router = useRouter();
+  const [name, setName] = useState("");
+  const [contact, setContact] = useState("");
+  const [errors, setErrors] = useState<{ name?: boolean; contact?: boolean }>({});
+  const [sending, setSending] = useState(false);
+
+  const handleCheckout = async () => {
+    if (sending) return;
+
+    // Клиентская валидация: без имени и контакта заказ не отправляем.
+    const nextErrors: { name?: boolean; contact?: boolean } = {};
+    if (!name.trim()) nextErrors.name = true;
+    if (!contact.trim()) nextErrors.contact = true;
+    setErrors(nextErrors);
+    if (nextErrors.name || nextErrors.contact) return;
+
+    setSending(true);
+    const payload = {
+      name: name.trim(),
+      contact: contact.trim(),
+      items: ctx.items.map((item) => ({
+        uid: item.uid,
+        title: item.title,
+        qty: item.quantity,
+        price: item.price,
+        options: item.color ? { color: item.color } : {},
+      })),
+      total: ctx.total,
+      lang,
+    };
+
+    // 503 / ошибка сети / таймаут — не блокируем пользователя:
+    // всё равно переходим на /success, как раньше.
+    const { ok, data } = await postJson("/api/order", payload);
+    if (ok) {
+      const id = (data as { ok?: boolean; id?: string | number } | null)?.id ?? null;
+      ctx.clear();
+      router.push(id != null ? `/success?id=${encodeURIComponent(String(id))}` : "/success");
+      return;
+    }
+    router.push("/success");
+  };
 
   if (!ctx.isOpen) return null;
 
@@ -146,6 +209,38 @@ export default function CartDrawer() {
               ))}
             </ul>
             <div style={{ flexShrink: 0, padding: "20px 24px", borderTop: "1px solid #dedede" }}>
+              <div style={{ display: "grid", gap: 12, marginBottom: 16 }}>
+                <div>
+                  <input
+                    type="text"
+                    value={name}
+                    onChange={(e) => {
+                      setName(e.target.value);
+                      if (errors.name) setErrors((prev) => ({ ...prev, name: false }));
+                    }}
+                    placeholder={t("cart.namePlaceholder")}
+                    aria-label={t("cart.namePlaceholder")}
+                    aria-invalid={errors.name || undefined}
+                    style={inputStyle}
+                  />
+                  {errors.name ? <div style={errorStyle}>{t("cart.nameRequired")}</div> : null}
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    value={contact}
+                    onChange={(e) => {
+                      setContact(e.target.value);
+                      if (errors.contact) setErrors((prev) => ({ ...prev, contact: false }));
+                    }}
+                    placeholder={t("cart.contactPlaceholder")}
+                    aria-label={t("cart.contactPlaceholder")}
+                    aria-invalid={errors.contact || undefined}
+                    style={inputStyle}
+                  />
+                  {errors.contact ? <div style={errorStyle}>{t("cart.contactRequired")}</div> : null}
+                </div>
+              </div>
               <div
                 style={{
                   display: "flex",
@@ -161,10 +256,11 @@ export default function CartDrawer() {
               </div>
               <button
                 className="btn btn-dark"
-                style={{ width: "100%" }}
-                onClick={() => alert(t("cart.thanks"))}
+                style={{ width: "100%", opacity: sending ? 0.6 : 1, cursor: sending ? "default" : "pointer" }}
+                disabled={sending}
+                onClick={handleCheckout}
               >
-                {t("cart.checkout")}
+                {sending ? t("cart.sending") : t("cart.checkout")}
               </button>
             </div>
           </>

@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { useLang } from "@/context/LanguageContext";
+import { postJson } from "@/lib/post-json";
 
 // Форма обратной связи перенесена из site/feedback.html (Tilda Zero form,
 // rec1481375721). Поля и тексты дословно из оригинала:
@@ -40,9 +42,36 @@ const fieldStyle: React.CSSProperties = {
 
 export default function FeedbackForm() {
   const { t } = useLang();
+  const router = useRouter();
   const [score, setScore] = useState<number>(5);
   const [checked, setChecked] = useState<Set<string>>(new Set());
   const [otherChecked, setOtherChecked] = useState(false);
+  const [sending, setSending] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (sending) return;
+
+    const fd = new FormData(e.currentTarget);
+    // Контракт /api/feedback: { name, contact, message } — бэкенд требует
+    // и имя, и контакт (иначе 400), поэтому у формы есть поле контакта.
+    const payload = {
+      name: String(fd.get("name") ?? ""),
+      contact: String(fd.get("contact") ?? ""),
+      message: String(fd.get("Textarea") ?? ""),
+    };
+
+    setSending(true);
+    // Отправляем в бэкенд (503 / сбой сети / таймаут не блокируют переход).
+    await postJson("/api/feedback", payload);
+    // Как раньше: все поля формы (name, contact, recommend, improve…) уходят в URL /success.
+    const params = new URLSearchParams();
+    fd.forEach((value, key) => {
+      const v = String(value);
+      if (v !== "") params.append(key, v);
+    });
+    router.push(`/success?${params.toString()}`);
+  };
 
   const toggle = (option: string) => {
     const next = new Set(checked);
@@ -55,7 +84,7 @@ export default function FeedbackForm() {
   };
 
   return (
-    <form action="/success" method="GET" style={{ display: "grid", gap: 20 }}>
+    <form onSubmit={handleSubmit} noValidate style={{ display: "grid", gap: 20 }}>
       {/* 1. Слайдер оценки (рекомендация от 1 до 10) */}
       <div>
         <div
@@ -108,6 +137,18 @@ export default function FeedbackForm() {
           name="name"
           autoComplete="name"
           aria-label={t("feedback.nameAria")}
+          style={fieldStyle}
+        />
+      </div>
+
+      {/* 2а. Контакт для ответа — бэкенд /api/feedback требует поле contact */}
+      <div>
+        <input
+          type="text"
+          name="contact"
+          autoComplete="tel"
+          placeholder={t("feedback.contactPlaceholder")}
+          aria-label={t("feedback.contactAria")}
           style={fieldStyle}
         />
       </div>
@@ -198,6 +239,7 @@ export default function FeedbackForm() {
       <div style={{ textAlign: "center", marginTop: 20 }}>
         <button
           type="submit"
+          disabled={sending}
           style={{
             color: "#ffffff",
             background: "#3a4f6a",
@@ -208,7 +250,8 @@ export default function FeedbackForm() {
             fontSize: 14,
             fontWeight: 500,
             fontFamily: "var(--font)",
-            cursor: "pointer",
+            cursor: sending ? "default" : "pointer",
+            opacity: sending ? 0.6 : 1,
             transition: "background-color 0.2s ease",
           }}
           onMouseEnter={(e) => (e.currentTarget.style.background = "#2e3f55")}

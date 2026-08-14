@@ -1,5 +1,7 @@
 "use client";
 
+import { Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import Accordion from "./accordion";
 import type { AccordionItem } from "./accordion";
 import ConsultBlock from "../contacts/consult";
@@ -9,6 +11,29 @@ import { useLang } from "@/context/LanguageContext";
 // «Спасибо, ваш заказ принят!» (rec1506615501), «Уход за тканями»
 // (rec1506769491 + rec1506769501), «Консультируем…» (rec1507679391).
 // Кнопки «На главную» в оригинале нет — убрана.
+
+// Строка «Номер заказа: …» из URL-параметра id (/success?id=…).
+// useSearchParams обёрнут в Suspense: страница остаётся статической (○),
+// динамическая часть рендерится на клиенте после гидратации.
+function OrderIdLine() {
+  const { t } = useLang();
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
+  if (!id) return null;
+  return (
+    <p
+      style={{
+        fontSize: 16,
+        fontWeight: 600,
+        color: "#3a4f6a",
+        fontFamily: "var(--font)",
+        margin: "0 0 24px",
+      }}
+    >
+      {t("success.orderId")}: {id}
+    </p>
+  );
+}
 
 export default function SuccessContent() {
   const { t } = useLang();
@@ -68,6 +93,10 @@ export default function SuccessContent() {
               {t("success.subtitle")}
             </p>
 
+            <Suspense fallback={null}>
+              <OrderIdLine />
+            </Suspense>
+
             <div style={{ marginBottom: 32 }}>
               <p style={{ margin: 0 }}>
                 <span style={{ fontWeight: 500 }}>{t("success.nextTitle")}</span>
@@ -86,14 +115,14 @@ export default function SuccessContent() {
               <p style={{ margin: 0 }}>
                 {t("success.phoneLabel")}{" "}
                 <a
-                  href="tel:+37378282508"
+                  href="tel:+37379476327"
                   style={{
                     borderBottom: "1px solid rgb(36, 36, 36)",
                     boxShadow: "none",
                     textDecoration: "none",
                   }}
                 >
-                  +373 78 28 25 08
+                  +373 794 76 327
                 </a>
               </p>
             </div>
