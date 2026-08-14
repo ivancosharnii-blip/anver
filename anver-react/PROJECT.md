@@ -181,8 +181,12 @@ anver-react/
 - [x] SEO-заголовки вынесены в словарь `seo` (`lib/i18n.ts`); страницы переведены на `generateMetadata`; title — из русского словаря (базовый язык)
 - [x] Форма контактов: «Send / Phone / Username or phone number» → «Отправить / Телефон / Номер телефона или username»
 
-### Осталось / на рассмотрение
-- [ ] Подключение Supabase (MCP) для заказов: project_ref `zlnwlaubmcmhbwqkchzq`; ключи — в `.env` (см. `.env.example`), бэкенд `lib/supabase.ts` + `app/api/order|feedback`, схема `supabase/schema.sql`; фронт — отправка заказа из корзины и форм
+### Сделано позже (итерация 2, 2026-08)
+- [x] Supabase для заказов/обратной связи: `lib/supabase.ts` (клиент, ленивая инициализация), `app/api/order` и `app/api/feedback` (валидация, 503 без ключей), `supabase/schema.sql` (таблицы orders/feedback + RLS), `.env.example`
+- [x] Фронт: корзина (`CartDrawer`) — поля «Имя/Контакт» + валидация + отправка POST /api/order, редирект на /success?id=…; формы контактов и feedback — POST /api/feedback; `/success` показывает номер заказа из URL
+- [x] Пакет `@supabase/supabase-js@2.112.3` установлен
+
+⚠️ **Чтобы включить БД**: владельцу нужно создать `.env` в `anver-react/` по образцу `.env.example` (NEXT_PUBLIC_SUPABASE_URL уже указан, вписать anon-ключ из Supabase Dashboard → Settings → API) и применить `supabase/schema.sql` в SQL Editor. До этого сайт работает без БД (API отвечают 503, UX не страдает).
 - [ ] Двуязычный SEO на двух языках требует **`/ro`-префикса** (словарь `seo` уже содержит оба языка; cookies() в generateMetadata ломает статику — на одном URL двуязычный title невозможен)
 - [ ] `metadata.title` — при необходимости поднять RO-заголовки через /ro
 - [ ] Сравнение с живым сайтом anver.md — **недоступен из рабочей сети** (DNS резолвится, соединение нет); браузер-инструмент тоже недоступен; эталон — выгрузка `../site/`
