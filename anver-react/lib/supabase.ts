@@ -59,15 +59,14 @@ export async function getSupabaseClient(): Promise<SupabaseClientLike | null> {
     return cachedClient;
   }
   try {
-    // TODO: после `npm i @supabase/supabase-js` убрать @ts-ignore.
-    // @ts-ignore — пакет @supabase/supabase-js ещё не установлен
+    // Пакет @supabase/supabase-js установлен (npm i @supabase/supabase-js).
+    // Каст на упрощённый SupabaseClientLike: реальные типы PostgrestBuilder
+    // не перекрываются с минимальным интерфейсом — чисто типовая правка,
+    // на рантайм не влияет.
     const { createClient } = await import("@supabase/supabase-js");
     cachedClient = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL as string,
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string,
-      // as unknown as — реальные типы SupabaseClient не перекрываются с
-      // упрощённым SupabaseClientLike (single() возвращает PostgrestBuilder,
-      // а не Promise). Чисто типовая правка, на рантайм не влияет.
     ) as unknown as SupabaseClientLike;
   } catch (err) {
     // Например: пакет не установлен или ключи невалидны.
