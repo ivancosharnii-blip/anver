@@ -253,7 +253,7 @@ export default function ContactsContent() {
               >
                 <span style={{ fontSize: 14, color: "#808080" }}>{t("contacts.phoneLabel")}</span>
                 <br />
-                078282508
+                +373 794 76 327
                 <br />
                 <span style={{ fontSize: 14, color: "#808080" }}>{t("contacts.emailLabel")}</span>
                 <br />

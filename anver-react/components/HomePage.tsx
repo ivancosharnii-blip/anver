@@ -14,12 +14,12 @@ const ADVANTAGES = [
   { icon: IMAGES.oekoIcon, lines: ["home.advCotton", "home.advCottonSub"] },
 ];
 
-// Кнопки связи — rec1507679391: телефон (заливка #5c7494, номер 078282508),
+// Кнопки связи — rec1507679391: телефон (заливка #5c7494, номер +373 794 76 327),
 // WhatsApp/Telegram/Viber — белые с рамкой #dedede, только иконки.
 const CONTACT_BUTTONS = [
   {
-    label: "078282508",
-    href: "tel:+37378282508",
+    label: "+373 794 76 327",
+    href: "tel:+37379476327",
     external: false,
     icon: "https://static.tildacdn.one/tild3833-3332-4065-a631-636137383066/icons8-call-90.png",
     filled: true,
@@ -33,14 +33,14 @@ const CONTACT_BUTTONS = [
   },
   {
     label: "Telegram",
-    href: "https://t.me/+37378282508",
+    href: "https://t.me/+37379476327",
     external: true,
     icon: "https://static.tildacdn.one/tild3561-3539-4135-a230-303239356461/icons8-telegram-100.png",
     filled: false,
   },
   {
     label: "Viber",
-    href: "viber://chat?number=%2B37378282508",
+    href: "viber://chat?number=%2B37379476327",
     external: false,
     icon: "https://static.tildacdn.one/tild6635-3535-4930-a433-323734323465/icons8-viber-100.png",
     filled: false,
@@ -311,12 +311,6 @@ export default function HomePage() {
           opacity: 0.8;
           line-height: 1.3;
         }
-        .anv-contacts__manager img {
-          width: 48px;
-          height: 48px;
-          border-radius: 4px;
-          object-fit: cover;
-        }
         @media (max-width: 960px) {
           .anv-contacts__card { flex-direction: column; }
           .anv-contacts__right { align-items: flex-start; }
@@ -435,17 +429,13 @@ export default function HomePage() {
               <div className="anv-contacts__manager">
                 <div className="anv-contacts__manager-info">
                   <div className="anv-contacts__manager-name">
-                    Максим
+                    Вера
                     <span className="anv-contacts__manager-dot" />
                   </div>
                   <div className="anv-contacts__manager-role">
                     {t("home.managerRole")}
                   </div>
                 </div>
-                <img
-                  src="https://static.tildacdn.one/tild3861-6637-4330-b733-616265306533/telegram-peer-photo-.jpg"
-                  alt="Максим — менеджер Anver"
-                />
               </div>
             </div>
           </div>

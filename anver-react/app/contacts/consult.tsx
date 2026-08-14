@@ -6,9 +6,6 @@
 import { PhoneIcon, TelegramIcon, WhatsAppIcon, ViberIcon } from "./icons";
 import { useLang } from "@/context/LanguageContext";
 
-const AVATAR_SRC =
-  "https://static.tildacdn.one/tild3861-6637-4330-b733-616265306533/telegram-peer-photo-.jpg";
-
 export default function ConsultBlock() {
   const { t } = useLang();
   return (
@@ -86,7 +83,7 @@ export default function ConsultBlock() {
           >
             <div style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center" }}>
               <a
-                href="tel:+37378282508"
+                href="tel:+37379476327"
                 className="consult-phone"
                 style={{
                   display: "inline-flex",
@@ -102,7 +99,7 @@ export default function ConsultBlock() {
                 }}
               >
                 <PhoneIcon size={24} color="#ffffff" />
-                <span style={{ fontSize: 14, fontWeight: 600, whiteSpace: "nowrap" }}>078282508</span>
+                <span style={{ fontSize: 14, fontWeight: 600, whiteSpace: "nowrap" }}>+373 794 76 327</span>
               </a>
               <a
                 href="https://wa.me/qr/Y7IWXEYL46C3N1"
@@ -121,7 +118,7 @@ export default function ConsultBlock() {
                 <WhatsAppIcon size={24} />
               </a>
               <a
-                href="https://t.me/+37378282508"
+                href="https://t.me/+37379476327"
                 target="_blank"
                 rel="nofollow"
                 aria-label="Telegram"
@@ -162,7 +159,7 @@ export default function ConsultBlock() {
                   }}
                 >
                   <span style={{ fontSize: 16, fontWeight: 500, color: "#000000", lineHeight: 1.3 }}>
-                    Максим
+                    Вера
                   </span>
                   <span
                     className="consult-dot"
@@ -180,14 +177,6 @@ export default function ConsultBlock() {
                   {t("home.managerRole")}
                 </div>
               </div>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={AVATAR_SRC}
-                alt=""
-                width={48}
-                height={48}
-                style={{ borderRadius: 4, objectFit: "cover" }}
-              />
             </div>
           </div>
         </div>

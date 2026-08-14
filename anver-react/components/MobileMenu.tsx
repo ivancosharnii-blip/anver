@@ -407,9 +407,9 @@ export default function MobileMenu({ open = false, onClose = () => {} }: MobileM
         </nav>
 
         <div className="anver-mm__bottom">
-          <a className="anver-mm__phone" href="tel:+37378282508">
+          <a className="anver-mm__phone" href="tel:+37379476327">
             <CallIcon />
-            <span>078 28 25 08</span>
+            <span>+373 794 76 327</span>
           </a>
 
           <div className="anver-mm__socials">
