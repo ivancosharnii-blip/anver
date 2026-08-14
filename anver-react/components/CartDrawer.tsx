@@ -255,7 +255,7 @@ export default function CartDrawer() {
                 <span style={{ fontSize: 20, fontWeight: 600 }}>{formatPrice(ctx.total)}</span>
               </div>
               <button
-                className="btn btn-dark"
+                className="btn btn-primary"
                 style={{ width: "100%", opacity: sending ? 0.6 : 1, cursor: sending ? "default" : "pointer" }}
                 disabled={sending}
                 onClick={handleCheckout}
