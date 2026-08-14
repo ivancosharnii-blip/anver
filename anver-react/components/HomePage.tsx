@@ -109,11 +109,11 @@ export default function HomePage() {
   return (
     <>
       <style>{`
-        /* Hero — t001 (rec1385544051): контент по центру, 640px (по просьбе — чуть выше, фото слишком «плоская») */
+        /* Hero — t001 (rec1385544051): контент по центру, 720px (главное фото с постелью — увеличено в высоту по просьбе) */
         .anv-hero {
           position: relative;
           width: 100%;
-          height: 640px;
+          height: 720px;
           background-image: url(${IMAGES.heroBg});
           background-size: cover;
           background-position: center;
