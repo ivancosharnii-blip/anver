@@ -109,11 +109,11 @@ export default function HomePage() {
   return (
     <>
       <style>{`
-        /* Hero — t001 (rec1385544051): контент по центру, 560px */
+        /* Hero — t001 (rec1385544051): контент по центру, 640px (по просьбе — чуть выше, фото слишком «плоская») */
         .anv-hero {
           position: relative;
           width: 100%;
-          height: 560px;
+          height: 640px;
           background-image: url(${IMAGES.heroBg});
           background-size: cover;
           background-position: center;
@@ -372,6 +372,9 @@ export default function HomePage() {
         }
       `}</style>
 
+      {/* Рейтинг «800 довольных клиентов» — под шапкой, над hero (rec1506370021) */}
+      <RatingBar />
+
       {/* 1. Hero + преимущества поверх низа */}
       <section className="anv-hero">
         <div className="anv-hero__filter" />
@@ -399,9 +402,6 @@ export default function HomePage() {
           ))}
         </div>
       </section>
-
-      {/* Рейтинг «800 довольных клиентов» — под hero (rec1506370021) */}
-      <RatingBar />
 
       {/* 2-4. Каталоги */}
       <CatalogSection
