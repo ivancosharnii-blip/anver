@@ -155,14 +155,14 @@ export default function Header() {
         <div className="anver-hd__bar">
           <Link href="/" className="anver-hd__brand" aria-label="Anver">
             <img
-              src="https://static.tildacdn.one/tild3936-6637-4939-b739-313337343731/anver_logo.svg"
+              src="https://zlnwlaubmcmhbwqkchzq.supabase.co/storage/v1/object/public/anver-images/tild3936-6637-4939-b739-313337343731/anver_logo.svg"
               alt="Anver"
               width={80}
               height={17}
             />
             <img
               className="anver-hd__made"
-              src="https://static.tildacdn.one/tild3035-3264-4036-b637-346263373036/Made_in_Moldova_Tag.svg"
+              src="https://zlnwlaubmcmhbwqkchzq.supabase.co/storage/v1/object/public/anver-images/tild3035-3264-4036-b637-346263373036/Made_in_Moldova_Tag.svg"
               alt="Made in Moldova"
               width={100}
               height={22}

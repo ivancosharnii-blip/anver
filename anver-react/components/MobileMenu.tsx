@@ -7,7 +7,7 @@ import { useCart } from "@/context/CartContext";
 import { useLang } from "@/context/LanguageContext";
 
 const LOGO_URL =
-  "https://static.tildacdn.one/tild3936-6637-4939-b739-313337343731/anver_logo.svg";
+  "https://zlnwlaubmcmhbwqkchzq.supabase.co/storage/v1/object/public/anver-images/tild3936-6637-4939-b739-313337343731/anver_logo.svg";
 
 // Оригинал: rec1386253291 (попап #menu, t1093, фон rgba(36,36,36,0.20) + blur 4px).
 // На главной: «Постельное белье» (подменю с миниатюрами), «Кухня (скоро)», «Контакты»,
@@ -18,17 +18,17 @@ const HOME_FABRICS = [
   {
     key: "nav.ranforce",
     href: "/#bedding",
-    image: "https://static.tildacdn.one/tild6262-6438-4533-a361-346439393565/12_6.jpg",
+    image: "https://zlnwlaubmcmhbwqkchzq.supabase.co/storage/v1/object/public/anver-images/tild6262-6438-4533-a361-346439393565/12_6.jpg",
   },
   {
     key: "nav.sateen",
     href: "/#bedding-sateen",
-    image: "https://static.tildacdn.one/tild3461-6233-4637-a661-663661326437/10_4.jpg",
+    image: "https://zlnwlaubmcmhbwqkchzq.supabase.co/storage/v1/object/public/anver-images/tild3461-6233-4637-a661-663661326437/10_4.jpg",
   },
   {
     key: "nav.stripe",
     href: "/#bedding-stripe",
-    image: "https://static.tildacdn.one/tild3461-3032-4061-a334-313433636439/7_2.jpg",
+    image: "https://zlnwlaubmcmhbwqkchzq.supabase.co/storage/v1/object/public/anver-images/tild3461-3032-4061-a334-313433636439/7_2.jpg",
   },
 ];
 

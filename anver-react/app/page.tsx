@@ -16,7 +16,7 @@ export function generateMetadata(): Metadata {
       locale: "ru_RU",
       images: [
         {
-          url: "https://static.tildacdn.one/tild3763-6530-4366-a431-393636336632/Autumn_Final_2.jpg",
+          url: "https://zlnwlaubmcmhbwqkchzq.supabase.co/storage/v1/object/public/anver-images/tild3763-6530-4366-a431-393636336632/Autumn_Final_2.jpg",
           width: 1200,
           height: 630,
           alt: title,

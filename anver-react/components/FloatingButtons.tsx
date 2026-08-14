@@ -203,7 +203,7 @@ export default function FloatingButtons() {
             className="fb-main__bg"
             style={{
               backgroundImage:
-                "url(https://static.tildacdn.one/tild3239-3961-4164-b639-326432373634/Call_Icon_White.svg)",
+                "url(https://zlnwlaubmcmhbwqkchzq.supabase.co/storage/v1/object/public/anver-images/tild3239-3961-4164-b639-326432373634/Call_Icon_White.svg)",
             }}
           />
           <span className="fb-main__close">

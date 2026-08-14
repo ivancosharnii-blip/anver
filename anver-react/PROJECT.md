@@ -193,6 +193,12 @@ anver-react/
 - [x] RLS работает: аноним может только INSERT; SELECT/DELETE закрыты (проверено)
 - ⚠️ Технический нюанс: id заказа генерируется на сервере (`crypto.randomUUID()` в route) — insert без `.select()`, т.к. `return=representation` потребовал бы SELECT-политики RLS, а чтение заказов анонимам закрыто намеренно
 - 🧹 В таблицах остались тестовые строки (Direct, DirectAnon, Тест Интеграции и др.) — можно удалить в Table Editor
+
+### Изображения → Supabase Storage (2026-08)
+- [x] Все 249 изображений (товары, логотипы, иконки, hero) перенесены с tildacdn в бакет **`anver-images`** (public) проекта Supabase
+- [x] URL заменены в коде: `https://static.tildacdn.one/` → `https://zlnwlaubmcmhbwqkchzq.supabase.co/storage/v1/object/public/anver-images/` (файлы: `lib/products.ts`, `lib/site.ts`, `components/*`, `app/page.tsx`)
+- [x] Бакет + политики RLS — скрипт `_anver-images-staging/storage.sql` (вне git): public bucket, аноним может загружать/читать/обновлять только в `anver-images`
+- [x] Проверено: публичный доступ 200, сборка зелёная
 - [ ] Двуязычный SEO на двух языках требует **`/ro`-префикса** (словарь `seo` уже содержит оба языка; cookies() в generateMetadata ломает статику — на одном URL двуязычный title невозможен)
 - [ ] `metadata.title` — при необходимости поднять RO-заголовки через /ro
 - [ ] Сравнение с живым сайтом anver.md — **недоступен из рабочей сети** (DNS резолвится, соединение нет); браузер-инструмент тоже недоступен; эталон — выгрузка `../site/`

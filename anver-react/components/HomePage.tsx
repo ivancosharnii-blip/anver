@@ -21,28 +21,28 @@ const CONTACT_BUTTONS = [
     label: "+373 794 76 327",
     href: "tel:+37379476327",
     external: false,
-    icon: "https://static.tildacdn.one/tild3833-3332-4065-a631-636137383066/icons8-call-90.png",
+    icon: "https://zlnwlaubmcmhbwqkchzq.supabase.co/storage/v1/object/public/anver-images/tild3833-3332-4065-a631-636137383066/icons8-call-90.png",
     filled: true,
   },
   {
     label: "WhatsApp",
     href: "https://wa.me/qr/Y7IWXEYL46C3N1",
     external: true,
-    icon: "https://static.tildacdn.one/tild3166-3662-4665-b830-353239333965/icons8-whatsapp-100.png",
+    icon: "https://zlnwlaubmcmhbwqkchzq.supabase.co/storage/v1/object/public/anver-images/tild3166-3662-4665-b830-353239333965/icons8-whatsapp-100.png",
     filled: false,
   },
   {
     label: "Telegram",
     href: "https://t.me/+37379476327",
     external: true,
-    icon: "https://static.tildacdn.one/tild3561-3539-4135-a230-303239356461/icons8-telegram-100.png",
+    icon: "https://zlnwlaubmcmhbwqkchzq.supabase.co/storage/v1/object/public/anver-images/tild3561-3539-4135-a230-303239356461/icons8-telegram-100.png",
     filled: false,
   },
   {
     label: "Viber",
     href: "viber://chat?number=%2B37379476327",
     external: false,
-    icon: "https://static.tildacdn.one/tild6635-3535-4930-a433-323734323465/icons8-viber-100.png",
+    icon: "https://zlnwlaubmcmhbwqkchzq.supabase.co/storage/v1/object/public/anver-images/tild6635-3535-4930-a433-323734323465/icons8-viber-100.png",
     filled: false,
   },
 ];
@@ -181,7 +181,7 @@ export default function HomePage() {
           width: 21px;
           height: 21px;
           flex-shrink: 0;
-          background-image: url(https://static.tildacdn.one/lib/icons/tilda/-/paint/242424--3-0-100/discount_percent_benefit_offer.svg);
+          background-image: url(https://zlnwlaubmcmhbwqkchzq.supabase.co/storage/v1/object/public/anver-images/lib/icons/tilda/-/paint/242424--3-0-100/discount_percent_benefit_offer.svg);
           background-size: contain;
           background-repeat: no-repeat;
           background-position: center;
@@ -437,14 +437,14 @@ export default function HomePage() {
                 ))}
               </div>
               <img
-                src="https://static.tildacdn.one/tild3663-6534-4362-a162-653230373664/84948565_10212897115.jpg"
+                src="https://zlnwlaubmcmhbwqkchzq.supabase.co/storage/v1/object/public/anver-images/tild3663-6534-4362-a162-653230373664/84948565_10212897115.jpg"
                 alt="Семейное производство постельного белья Anver"
                 className="anv-about__img-wide"
               />
             </div>
             <div>
               <img
-                src="https://static.tildacdn.one/tild3431-3662-4130-a239-386235636535/122091802_1224158167.jpg"
+                src="https://zlnwlaubmcmhbwqkchzq.supabase.co/storage/v1/object/public/anver-images/tild3431-3662-4130-a239-386235636535/122091802_1224158167.jpg"
                 alt="Семейное производство постельного белья Anver"
                 className="anv-about__img-tall"
               />

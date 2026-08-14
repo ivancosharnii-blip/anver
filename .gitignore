@@ -15,3 +15,5 @@ build/
 # Прочее
 .DS_Store
 *.log
+# staging для загрузки картинок в Supabase Storage (не в git)
+_anver-images-staging/
