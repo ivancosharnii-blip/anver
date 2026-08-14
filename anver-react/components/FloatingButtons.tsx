@@ -111,15 +111,26 @@ export default function FloatingButtons() {
           box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.3);
           opacity: 0;
           visibility: hidden;
+          transform: translateY(14px);
           transition: all 0.25s ease-in-out;
         }
-        .fb-item:nth-of-type(1) { transform: translateY(0); }
-        .fb-item:nth-of-type(2) { transform: translateY(0); }
-        .fb-item:nth-of-type(3) { transform: translateY(0); }
-        .fb-list[data-open="true"] .fb-item { opacity: 1; visibility: visible; }
-        .fb-list[data-open="true"] .fb-item:nth-of-type(1) { transform: translateY(-135%); transition-delay: 0.1s; }
-        .fb-list[data-open="true"] .fb-item:nth-of-type(2) { transform: translateY(-270%); transition-delay: 0.05s; }
-        .fb-list[data-open="true"] .fb-item:nth-of-type(3) { transform: translateY(-405%); }
+        /* Список вне потока (absolute): кнопки идут строго в столбик над главной,
+           без наложений (проблема была: translateY в % + position:relative давали
+           пересечение кругов). column-reverse — первый пункт (телефон) ближе к кнопке. */
+        .fb-list {
+          position: absolute;
+          bottom: 70px;
+          left: 50%;
+          transform: translateX(-50%);
+          display: flex;
+          flex-direction: column-reverse;
+          align-items: center;
+          gap: 10px;
+        }
+        .fb-list[data-open="true"] .fb-item { opacity: 1; visibility: visible; transform: translateY(0); }
+        .fb-list[data-open="true"] .fb-item:nth-of-type(1) { transition-delay: 0.12s; }
+        .fb-list[data-open="true"] .fb-item:nth-of-type(2) { transition-delay: 0.06s; }
+        .fb-list[data-open="true"] .fb-item:nth-of-type(3) { transition-delay: 0s; }
         .fb-item:hover { box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.4); }
         .fb-item__tip {
           position: absolute;
