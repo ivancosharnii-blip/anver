@@ -186,7 +186,13 @@ anver-react/
 - [x] Фронт: корзина (`CartDrawer`) — поля «Имя/Контакт» + валидация + отправка POST /api/order, редирект на /success?id=…; формы контактов и feedback — POST /api/feedback; `/success` показывает номер заказа из URL
 - [x] Пакет `@supabase/supabase-js@2.112.3` установлен
 
-⚠️ **Чтобы включить БД**: владельцу нужно создать `.env` в `anver-react/` по образцу `.env.example` (NEXT_PUBLIC_SUPABASE_URL уже указан, вписать anon-ключ из Supabase Dashboard → Settings → API) и применить `supabase/schema.sql` в SQL Editor. До этого сайт работает без БД (API отвечают 503, UX не страдает).
+### Подключение вживую (2026-08, проверено)
+- [x] Ключи в `anver-react/.env` (НЕ коммитится): `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` (anon JWT из Dashboard)
+- [x] Схема `supabase/schema.sql` применена в SQL Editor (таблицы orders/feedback + RLS + политики anon_insert_*)
+- [x] POST /api/order и /api/feedback пишут в БД (проверено: ok:true + id)
+- [x] RLS работает: аноним может только INSERT; SELECT/DELETE закрыты (проверено)
+- ⚠️ Технический нюанс: id заказа генерируется на сервере (`crypto.randomUUID()` в route) — insert без `.select()`, т.к. `return=representation` потребовал бы SELECT-политики RLS, а чтение заказов анонимам закрыто намеренно
+- 🧹 В таблицах остались тестовые строки (Direct, DirectAnon, Тест Интеграции и др.) — можно удалить в Table Editor
 - [ ] Двуязычный SEO на двух языках требует **`/ro`-префикса** (словарь `seo` уже содержит оба языка; cookies() в generateMetadata ломает статику — на одном URL двуязычный title невозможен)
 - [ ] `metadata.title` — при необходимости поднять RO-заголовки через /ro
 - [ ] Сравнение с живым сайтом anver.md — **недоступен из рабочей сети** (DNS резолвится, соединение нет); браузер-инструмент тоже недоступен; эталон — выгрузка `../site/`
