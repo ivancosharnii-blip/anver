@@ -8,6 +8,9 @@ import { ADMIN_COOKIE, hashAdmin } from "@/lib/admin-auth";
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
+  // Роут входа сам выдаёт cookie — не защищаем его.
+  if (pathname === "/api/admin/auth") return NextResponse.next();
+
   const isAdminApi = pathname.startsWith("/api/admin");
   const isAdminPage =
     pathname.startsWith("/admin") && !pathname.startsWith("/admin/login");
