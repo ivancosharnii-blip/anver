@@ -29,6 +29,7 @@ alter table public.products
   add column if not exists json_options jsonb not null default '[]'::jsonb;
 
 -- Витрина: аноним читает каталог.
+drop policy if exists "anon_read_products" on public.products;
 create policy "anon_read_products" on public.products
   for select to anon using (true);
 
@@ -37,12 +38,15 @@ create policy "anon_read_products" on public.products
 -- приложения (middleware + роуты /api/admin/*).
 -- РЕКОМЕНДАЦИЯ: завести SUPABASE_SERVICE_ROLE_KEY в .env и ходить из админ-роутов
 -- под service_role, тогда эти три политики на запись можно удалить.
+drop policy if exists "admin_insert_products" on public.products;
 create policy "admin_insert_products" on public.products
   for insert to anon with check (true);
 
+drop policy if exists "admin_update_products" on public.products;
 create policy "admin_update_products" on public.products
   for update to anon using (true);
 
+drop policy if exists "admin_delete_products" on public.products;
 create policy "admin_delete_products" on public.products
   for delete to anon using (true);
 
