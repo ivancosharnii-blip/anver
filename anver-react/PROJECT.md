@@ -22,8 +22,9 @@
 | React | 19.2.8 |
 | TypeScript | 5.x |
 | Шрифт | **Nunito** (округлый, тёплый; подключён через `next/font/google`; subsets: latin, latin-ext, cyrillic) |
-| Хостинг товаров | данные захардкожены в `lib/products.ts` (выгружено с Tilda API) |
-| MCP | Supabase подключён в `opencode.json` (пока не используется) |
+| Хостинг товаров | Supabase: таблица `products` + бакет `anver-images`; фолбэк — хардкод в `lib/products.ts` (выгрузка с Tilda API) |
+| Админка | `/admin`: вход по паролю (`ADMIN_PASSWORD` в `.env`), товары/цены/фото через Supabase |
+| MCP | Supabase подключён в `opencode.json` (используется: заказы, отзывы, каталог) |
 
 **Запуск:**
 ```bash
@@ -45,6 +46,8 @@ anver-react/
 │   ├── globals.css         # дизайн-система: переменные, .container, .btn, .section и т.д.
 │   ├── ranforce/  sateen/  sateen-stripe/  sets/  pillowcases/  sheets/  bundles/
 │   │   └── page.tsx        # каталог-страницы (server-обёртки: metadata) → components/CatalogPage.tsx
+│   ├── admin/               # админ-панель: login/page.tsx (вход), page.tsx (дашборд каталога), admin-ui.tsx (Modal/Toast)
+│   ├── api/                 # route handlers: catalog (витрина), admin/{auth,logout,products,photos,seed}, order, feedback
 │   ├── contacts/           # page.tsx + contacts-content.tsx (client) + consult.tsx + contact-form.tsx + accordion.tsx + icons.tsx
 │   ├── feedback/           # page.tsx + feedback-form.tsx
 │   └── success/            # page.tsx + success-content.tsx (client) + accordion.tsx
@@ -68,7 +71,15 @@ anver-react/
 │   ├── i18n.ts             # СЛОВАРИ ru/ro (весь UI-текст), тип Dict
 │   ├── product-ro.ts       # перевод ТОВАРОВ на румынский (по uid) + бейджи скидок + названия опций
 │   ├── products.ts         # товары (статика, выгрузка с Tilda: title, text, descr, gallery, json_options…)
-│   └── site.ts             # константы: CONTACTS, IMAGES, CURRENCY, PROMO, RATING
+│   ├── site.ts             # константы: CONTACTS, IMAGES, CURRENCY, PROMO, RATING
+│   ├── catalog.ts          # серверный слой каталога: Supabase REST (чтение витрины + CRUD админки), маппинг в Product, фолбэк на хардкод
+│   ├── useCatalog.ts       # хук витрины (client): сразу хардкод, затем /api/catalog (БД)
+│   ├── admin-auth.ts       # аутентификация админки: SHA-256 cookie + ADMIN_PASSWORD
+│   └── supabase.ts         # клиент Supabase для заказов/отзывов (ленивая инициализация)
+├── middleware.ts            # защита /admin и /api/admin/*: без cookie — редирект на /admin/login (страницы) / 401 (API)
+├── supabase/
+│   ├── schema.sql          # миграция заказов/отзывов (orders, feedback) — применена
+│   └── admin-schema.sql    # миграция админки (таблица products + json_options + storage-политики) — идемпотентная
 └── public/                 # статика (favicon и пр.)
 ```
 
@@ -101,7 +112,7 @@ anver-react/
 - `context/LanguageContext.tsx` — провайдер с хуком `useLang()` → `{ lang, setLang, t, dict }`.
 - `t("путь.ключ")` достаёт строку из словаря текущего языка (`lib/i18n.ts`). Если ключа нет — вернёт сам ключ.
 - Выбор языка сохраняется в `localStorage` (`anver-lang`); по умолчанию — язык браузера (ro/mo → румынский, иначе русский).
-- Переключатель **RU / RO** — в шапке (Header) и мобильном меню.
+- Переключатель языка — **одна кнопка** в шапке (Header) и мобильном меню: на русском показывает **RO**, на румынском — **RU** (клик переключает на другой язык).
 
 ### Как добавить перевод
 1. В `lib/i18n.ts` добавь ключ в **оба** словаря (`ru` — русский, `ro` — румынский) с одинаковой структурой.
@@ -133,6 +144,7 @@ anver-react/
 | `/contacts` | Контакты: политика возврата, оплата/доставка, консультация, форма | contacts.html |
 | `/feedback` | Обратная связь (форма) | feedback.html |
 | `/success` | Страница «Спасибо, заказ принят» | success.html |
+| `/admin` | Админ-панель: вход по паролю, каталог (добавление фото/товара, правка цен, удаление) | — |
 
 ### Панель категорий (t978)
 Каталог-страницы содержат панель: «Категории» (Комплекты, Наборы, Пододеяльники и покрывала, Простыни, Наволочки) и «Ткани» (Sateen Premium, Sateen Stripes, 100% Хлопок Ранфорс). Ссылки — из оригинала.
@@ -199,6 +211,22 @@ anver-react/
 - [x] URL заменены в коде: `https://static.tildacdn.one/` → `https://zlnwlaubmcmhbwqkchzq.supabase.co/storage/v1/object/public/anver-images/` (файлы: `lib/products.ts`, `lib/site.ts`, `components/*`, `app/page.tsx`)
 - [x] Бакет + политики RLS — скрипт `_anver-images-staging/storage.sql` (вне git): public bucket, аноним может загружать/читать/обновлять только в `anver-images`
 - [x] Проверено: публичный доступ 200, сборка зелёная
+
+### Админ-панель и каталог в Supabase (2026-08, итерация 3)
+- [x] **Каталог в БД**: таблица `public.products` (uid, title, price, priceold, mark, text, descr, gallery, **json_options**, category, fabric, storepart) + RLS (anon: select витрине; CRUD — для админки на anon-ключе, защита — пароль приложения); миграция `supabase/admin-schema.sql` — идемпотентная (каждый create прикрыт drop/if not exists)
+- [x] **Витрина читает из БД с фолбэком**: `lib/catalog.ts` (серверный слой, маппинг строки БД → `Product`) + `lib/useCatalog.ts` (хук: сразу показывает хардкод, затем подменяет данными `/api/catalog`); каталог-страницы и главная работают и без миграции
+- [x] **Админ-панель `/admin`**: вход по паролю (`ADMIN_PASSWORD` в `.env`, httpOnly-cookie с SHA-256), `middleware.ts` защищает `/admin` и `/api/admin/*` (страницы → редирект на логин, API → 401); дашборд: список товаров с поиском, **добавление товара с загрузкой фото** (Supabase Storage `anver-images`), **правка цен** (цена / старая цена / бейдж), **удаление фото** (из галереи + storage) и **удаление товара**
+- [x] API-роуты: `app/api/admin/{auth,logout,products,photos,seed}` + публичный `app/api/catalog`
+- [x] **Seed / backfill**: кнопка «Загрузить товары из кода» — при пустой таблице вставляет все товары из `lib/products.ts` (вкл. `json_options`), при заполненной — дозаполняет опции по uid (цены/бейджи не трогает)
+- [x] **Цвета товаров восстановлены**: колонка `json_options` + backfill — фикс «все цвета в кучу» в модалке товара (галерея снова нарезается по расцветкам, как в fadd221); при пустых опциях модалка показывает все фото
+- [x] Переключатель языка: вместо «RU / RO» одна кнопка — RO на русском, RU на румынском
+- [x] Менеджер: фото из блоков консультации убрано, имя «Максим» → «Вера», телефон по всему сайту → +373 794 76 327 (см. §7)
+- [x] Главная: hero-фото выше (720px); рейтинг «★★★★★ 800 довольных клиентов» временно в подвале (место ещё не финально)
+
+### Осталось / на рассмотрение
+- [ ] RO-названия для новых товаров из админки (сейчас новые товары — только RU, RO фолбэком на русский)
+- [ ] Перевести админ-роуты с anon-ключа на `SUPABASE_SERVICE_ROLE_KEY` (RLS-политики на запись анониму тогда снимаются) — см. комментарии в `lib/catalog.ts` и `supabase/admin-schema.sql`
+- [ ] Редактирование опций (цветов/размеров) и текстов товара из админки
 - [ ] Двуязычный SEO на двух языках требует **`/ro`-префикса** (словарь `seo` уже содержит оба языка; cookies() в generateMetadata ломает статику — на одном URL двуязычный title невозможен)
 - [ ] `metadata.title` — при необходимости поднять RO-заголовки через /ro
 - [ ] Сравнение с живым сайтом anver.md — **недоступен из рабочей сети** (DNS резолвится, соединение нет); браузер-инструмент тоже недоступен; эталон — выгрузка `../site/`
@@ -209,5 +237,8 @@ anver-react/
 
 - **Не редактировать**: `app/globals.css` переменные без необходимости; `app/layout.tsx` (провайдеры); структуру словарей `lib/i18n.ts` без добавления ключа в оба языка.
 - Стили компонентов — инлайн `<style>` внутри компонента (паттерн проекта).
-- После любых правок: `npx next build` — все 12 страниц должны собираться.
+- После любых правок: `npx next build` — все страницы должны собираться.
 - Проверка перевода: переключить RO в шапке и пройтись по страницам.
+- **Админка**: пароль — `ADMIN_PASSWORD` в `.env` (не коммитится); смена пароля → перезапуск сервера. Вход: `/admin`.
+- **Миграции БД** — `supabase/admin-schema.sql` (идемпотентный) применяется в Supabase Dashboard → SQL Editor; повторный запуск безопасен.
+- **Данные каталога**: товары живут в Supabase (таблица `products`); `lib/products.ts` — эталон/фолбэк, кнопка seed в админке синхронизирует (вставка или backfill опций по uid).
