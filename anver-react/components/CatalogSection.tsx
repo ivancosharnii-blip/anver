@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { products, type Product } from "@/lib/products";
+import type { Product } from "@/lib/products";
+import { useCatalogItems } from "@/lib/useCatalog";
 import ProductCard from "./ProductCard";
 import ProductModal from "./ProductModal";
 import styles from "./CatalogSection.module.css";
@@ -21,7 +22,7 @@ export default function CatalogSection({
 }: CatalogSectionProps) {
   const [active, setActive] = useState<Product | null>(null);
 
-  const items = products.filter((p) => p.storepart === storepart);
+  const items = useCatalogItems({ storepart });
 
   return (
     <section id={anchor} className="section" style={{ paddingBottom: 0 }}>

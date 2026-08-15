@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { products, type Product } from "@/lib/products";
+import { useCatalogItems } from "@/lib/useCatalog";
 import { IMAGES } from "@/lib/site";
 import ProductCard from "./ProductCard";
 import { useLang } from "@/context/LanguageContext";
@@ -79,9 +79,7 @@ export default function CatalogPage({
 }: CatalogPageProps) {
   const { t } = useLang();
 
-  const items: Product[] = storepart
-    ? products.filter((p) => p.storepart === storepart)
-    : products.filter((p) => p.category === category);
+  const items = useCatalogItems({ storepart, category });
 
   return (
     <section className="section" style={{ padding: "40px 0 60px" }}>
