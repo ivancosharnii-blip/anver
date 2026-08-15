@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(
       {
         error:
-          "Таблица products недоступна. Выполните миграцию supabase/schema.sql в SQL Editor Supabase (https://supabase.com/dashboard/project/zlnwlaubmcmhbwqkchzq/sql/new).",
+          "Таблица products недоступна. Выполните миграцию supabase/admin-schema.sql в SQL Editor Supabase (https://supabase.com/dashboard/project/zlnwlaubmcmhbwqkchzq/sql/new).",
       },
       { status: 400 },
     );
