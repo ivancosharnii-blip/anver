@@ -12,7 +12,7 @@
  * SUPABASE_SERVICE_ROLE_KEY и в админ-роутах ходить под ним, тогда RLS-политики
  * на запись анониму можно снять.
  */
-import { products as hardcodedProducts, type Product } from "@/lib/products";
+import { products as hardcodedProducts, type Product, type ProductOption } from "@/lib/products";
 
 export const SUPABASE_URL =
   process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
@@ -49,6 +49,7 @@ export type CatalogRow = {
   text: string;
   descr: string;
   gallery: string[];
+  json_options?: ProductOption[];
   category: string;
   fabric: string;
   storepart: number;
@@ -67,7 +68,7 @@ export function rowToProduct(r: CatalogRow): Product {
     text: r.text ?? "",
     descr: r.descr ?? "",
     gallery: Array.isArray(r.gallery) ? r.gallery : [],
-    json_options: [],
+    json_options: Array.isArray(r.json_options) ? r.json_options : [],
     partuids: [],
     storepart: Number(r.storepart),
     fabric: r.fabric ?? "",

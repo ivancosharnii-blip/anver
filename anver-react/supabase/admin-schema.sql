@@ -14,6 +14,7 @@ create table if not exists public.products (
   text       text not null default '',           -- описание (HTML)
   descr      text not null default '',           -- краткое описание (HTML)
   gallery    jsonb not null default '[]'::jsonb, -- массив URL фото
+  json_options jsonb not null default '[]'::jsonb, -- опции товара (цвета/размеры), как в выгрузке Tilda
   category   text not null default '',           -- «Комплект»/«Пододеяльник»/«Простынь»/«Наволочки»
   fabric     text not null default '',           -- sateen / ranforce / sateen-stripe / ...
   storepart  bigint not null default 387894771902,
@@ -21,6 +22,11 @@ create table if not exists public.products (
 );
 
 alter table public.products enable row level security;
+
+-- Для уже существующей таблицы (созданной до этой версии миграции):
+-- добавляем колонку опций. Для свежей установки — no-op.
+alter table public.products
+  add column if not exists json_options jsonb not null default '[]'::jsonb;
 
 -- Витрина: аноним читает каталог.
 create policy "anon_read_products" on public.products

@@ -120,9 +120,20 @@ export default function AdminPage() {
     setToast(null);
     try {
       const res = await fetch("/api/admin/seed", { method: "POST" });
-      const data = (await res.json().catch(() => ({}))) as { inserted?: number; error?: string };
+      const data = (await res.json().catch(() => ({}))) as {
+        inserted?: number;
+        backfilled?: number;
+        error?: string;
+      };
       if (res.ok) {
-        setToast({ message: `Загружено товаров из кода: ${data.inserted ?? 0}`, type: "ok" });
+        const n = data.inserted ?? data.backfilled ?? 0;
+        setToast({
+          message:
+            data.backfilled !== undefined
+              ? `Обновлено опций товаров: ${n}`
+              : `Загружено товаров из кода: ${n}`,
+          type: "ok",
+        });
         void load(q);
       } else {
         // 400 с текстом ошибки — нормально, если товары уже загружены.

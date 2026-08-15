@@ -4,8 +4,14 @@ import { supabaseFetch } from "@/lib/catalog";
 import { products } from "@/lib/products";
 
 /**
- * POST /api/admin/seed — одноразовая загрузка товаров из lib/products.ts
- * в таблицу products (если она ещё пуста).
+ * POST /api/admin/seed — перенос товаров из lib/products.ts в БД.
+ *
+ * Два режима:
+ *  - таблица пуста            → полная вставка всех товаров (вместе с опциями);
+ *  - товары уже есть          → backfill: дозаполняет json_options по uid
+ *                               из кода (цены/бейджи НЕ трогает).
+ * Нужен для восстановления опций (цветов) после миграции до версии
+ * с колонкой json_options.
  */
 export async function POST(req: NextRequest) {
   const denied = await requireAdmin(req);
@@ -22,13 +28,33 @@ export async function POST(req: NextRequest) {
     );
   }
   const existing = (await countRes.json()) as unknown[];
+
+  // Режим backfill: таблица не пуста.
   if (Array.isArray(existing) && existing.length > 0) {
-    return NextResponse.json(
-      { error: "Товары уже загружены в БД" },
-      { status: 400 },
-    );
+    let updated = 0;
+    let failed = 0;
+    for (const p of products) {
+      const res = await supabaseFetch(`/rest/v1/products?uid=eq.${p.uid}`, {
+        method: "PATCH",
+        headers: { Prefer: "return=minimal" },
+        body: JSON.stringify({ json_options: p.json_options }),
+      });
+      if (res.ok) updated++;
+      else failed++;
+    }
+    if (updated === 0 && failed > 0) {
+      return NextResponse.json(
+        {
+          error:
+            "Не удалось обновить опции: в таблице нет колонки json_options. Выполните миграцию supabase/admin-schema.sql ещё раз в SQL Editor Supabase.",
+        },
+        { status: 400 },
+      );
+    }
+    return NextResponse.json({ backfilled: updated });
   }
 
+  // Режим полной вставки: таблица пуста.
   const rows = products.map((p) => ({
     uid: p.uid,
     title: p.title,
@@ -38,6 +64,7 @@ export async function POST(req: NextRequest) {
     text: p.text,
     descr: p.descr,
     gallery: p.gallery,
+    json_options: p.json_options,
     category: p.category,
     fabric: p.fabric,
     storepart: p.storepart,
