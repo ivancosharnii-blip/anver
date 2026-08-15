@@ -180,6 +180,14 @@ function MainFooter() {
               </a>
             </div>
           </div>
+
+          {/* Рейтинг «800 довольных клиентов» — временно в подвале (потом разберёмся) */}
+          <div style={{ textAlign: "center", marginTop: 48 }}>
+            <span style={{ color: "#d59c3f", fontSize: 14, fontWeight: 500 }}>★★★★★</span>
+            <span style={{ color: "#3a4f6a", fontSize: 12, fontWeight: 500, marginLeft: 8 }}>
+              {t("home.rating")}
+            </span>
+          </div>
         </div>
       </div>
     </footer>
