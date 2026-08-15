@@ -193,13 +193,12 @@ export default function Header() {
           <div className="anver-hd__actions">
             <div className="anver-hd__pill anver-hd__langpill">
               <LangIcon />
-              <span className="anver-hd__lang">
+              <span className="anver-hd__lang" style={{ opacity: 1 }}>
                 <button
                   type="button"
-                  onClick={() => setLang("ru")}
+                  onClick={() => setLang(lang === "ru" ? "ro" : "ru")}
                   style={{
-                    fontWeight: lang === "ru" ? 700 : 400,
-                    opacity: lang === "ru" ? 1 : 0.5,
+                    fontWeight: 500,
                     cursor: "pointer",
                     border: "none",
                     background: "none",
@@ -210,26 +209,7 @@ export default function Header() {
                     color: "#242424",
                   }}
                 >
-                  RU
-                </button>
-                <span aria-hidden="true">/</span>
-                <button
-                  type="button"
-                  onClick={() => setLang("ro")}
-                  style={{
-                    fontWeight: lang === "ro" ? 700 : 400,
-                    opacity: lang === "ro" ? 1 : 0.5,
-                    cursor: "pointer",
-                    border: "none",
-                    background: "none",
-                    fontFamily: "inherit",
-                    fontSize: 14,
-                    lineHeight: 1,
-                    padding: 0,
-                    color: "#242424",
-                  }}
-                >
-                  RO
+                  {lang === "ru" ? "RO" : "RU"}
                 </button>
               </span>
             </div>

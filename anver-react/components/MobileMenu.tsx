@@ -271,10 +271,9 @@ export default function MobileMenu({ open = false, onClose = () => {} }: MobileM
               <LangIcon />
               <button
                 type="button"
-                onClick={() => setLang("ru")}
+                onClick={() => setLang(lang === "ru" ? "ro" : "ru")}
                 style={{
-                  fontWeight: lang === "ru" ? 700 : 400,
-                  opacity: lang === "ru" ? 1 : 0.5,
+                  fontWeight: 500,
                   cursor: "pointer",
                   border: "none",
                   background: "none",
@@ -285,26 +284,7 @@ export default function MobileMenu({ open = false, onClose = () => {} }: MobileM
                   color: "#242424",
                 }}
               >
-                RU
-              </button>
-              <span aria-hidden="true" style={{ opacity: 0.5 }}>/</span>
-              <button
-                type="button"
-                onClick={() => setLang("ro")}
-                style={{
-                  fontWeight: lang === "ro" ? 700 : 400,
-                  opacity: lang === "ro" ? 1 : 0.5,
-                  cursor: "pointer",
-                  border: "none",
-                  background: "none",
-                  fontFamily: "inherit",
-                  fontSize: 14,
-                  lineHeight: 1,
-                  padding: 0,
-                  color: "#242424",
-                }}
-              >
-                RO
+                {lang === "ru" ? "RO" : "RU"}
               </button>
             </div>
 
