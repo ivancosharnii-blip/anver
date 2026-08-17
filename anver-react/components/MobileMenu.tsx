@@ -350,31 +350,22 @@ export default function MobileMenu({ open = false, onClose = () => {} }: MobileM
 
           <div className="anver-mm__item">
             <div className="anver-mm__accent" />
-            <span className="anver-mm__soon">{t("nav.kitchen")}</span>
+            <Link href="/kitchen" className="anver-mm__link" onClick={onClose}>
+              {t("nav.kitchen")}
+            </Link>
           </div>
-
-          {!isHome ? (
-            <div className="anver-mm__item">
-              <div className="anver-mm__accent" />
-              <Link href="/gift" className="anver-mm__link" onClick={onClose}>
-                {t("nav.gift")}
-              </Link>
-            </div>
-          ) : null}
-
-          {!isHome ? (
-            <div className="anver-mm__item">
-              <div className="anver-mm__accent" />
-              <Link href="/sale" className="anver-mm__link" onClick={onClose}>
-                {t("nav.sale")}&nbsp;<span style={{ opacity: 0.6 }}>{t("nav.saleBadge")}</span>
-              </Link>
-            </div>
-          ) : null}
 
           <div className="anver-mm__item">
             <div className="anver-mm__accent" />
             <Link href="/contacts" className="anver-mm__link" onClick={onClose}>
               {t("nav.contacts")}
+            </Link>
+          </div>
+
+          <div className="anver-mm__item">
+            <div className="anver-mm__accent" />
+            <Link href="/reviews" className="anver-mm__link" onClick={onClose}>
+              {t("nav.reviews")}
             </Link>
           </div>
 

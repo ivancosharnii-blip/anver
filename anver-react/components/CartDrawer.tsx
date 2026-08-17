@@ -88,7 +88,10 @@ export default function CartDrawer() {
         title: item.title,
         qty: item.quantity,
         price: item.price,
-        options: item.color ? { color: item.color } : {},
+        options: {
+          ...(item.color ? { color: item.color } : {}),
+          ...(item.size ? { size: item.size } : {}),
+        },
       })),
       total: ctx.total,
       lang,
@@ -174,6 +177,11 @@ export default function CartDrawer() {
                     {item.color ? (
                       <div style={{ fontSize: 13, color: "#808080", marginTop: 4 }}>
                         {item.color}
+                      </div>
+                    ) : null}
+                    {item.size ? (
+                      <div style={{ fontSize: 13, color: "#808080", marginTop: 2 }}>
+                        {item.size}
                       </div>
                     ) : null}
                     <div style={{ fontSize: 14, fontWeight: 600, color: "#242424", marginTop: 6 }}>

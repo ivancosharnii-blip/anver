@@ -19,11 +19,11 @@
   box-shadow: 0 16px 32px -16px rgba(36, 36, 36, 0.22);
 }
 
-/* --- Медиа: фото 1:1, подмена на второе фото при hover, лупа --- */
+/* --- Медиа: фото с моделью удлинённое (3:4), подмена на второе фото при hover --- */
 
 .media {
   position: relative;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 3 / 4;
   overflow: hidden;
   background: var(--color-bg-soft, #f2f2f2);
   cursor: pointer;
@@ -110,20 +110,61 @@
   transform: translateY(0);
 }
 
+/* --- Компактная кнопка «В корзину»: круглая иконка на фото (без текста) --- */
+
+.addFab {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.96);
+  color: var(--color-primary, #3a4f6a);
+  box-shadow: 0 4px 14px rgba(36, 36, 36, 0.2);
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.15s ease;
+}
+
+.addFab:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(36, 36, 36, 0.26);
+}
+
+.addFab:active {
+  transform: scale(0.94);
+}
+
+.addFab:focus-visible {
+  outline: 2px solid var(--color-brand, #b15c2a);
+  outline-offset: 2px;
+}
+
+/* «Добавлено ✓» — спокойный зелёный успех */
+.addFab.added {
+  background: #3f7d4e;
+  color: #ffffff;
+}
+
 /* --- Контент --- */
 
 .body {
   display: flex;
   flex-direction: column;
   flex: 1;
-  gap: 8px;
+  gap: 6px;
   padding: 12px 14px 14px;
 }
 
 .title {
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 600;
-  line-height: 1.4;
+  line-height: 1.35;
   color: var(--color-text, #242424);
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -156,36 +197,77 @@
   text-decoration: line-through;
 }
 
-/* Кнопка «В корзину»: прижата к низу карточки, отклик на нажатие */
-.addBtn {
-  margin-top: auto;
+/* --- Селектор расцветок: горизонтальный листаемый ряд, кружки крупнее --- */
+
+.colors {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 2px;
+}
+
+.colorName {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text, #242424);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.colorSwatches {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 2px 2px 6px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border, #dedede) transparent;
+  -webkit-overflow-scrolling: touch;
+}
+
+.colorSwatches::-webkit-scrollbar {
+  height: 4px;
+}
+
+.colorSwatches::-webkit-scrollbar-thumb {
+  background: var(--color-border, #dedede);
+  border-radius: 4px;
+}
+
+.swatch {
+  flex: 0 0 auto;
+  width: 52px;
+  height: 52px;
+  padding: 0;
+  border: 2px solid var(--color-border, #dedede);
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--color-bg-soft, #f2f2f2);
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+}
+
+.swatch img {
   width: 100%;
-  height: 44px;
-  padding: 0 20px;
-  font-size: 14px;
-  font-weight: 700;
-  border-radius: 8px;
-  transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
-.addBtn:hover {
-  box-shadow: 0 4px 12px rgba(58, 79, 106, 0.25);
+.swatch:hover {
+  border-color: var(--color-brand, #b15c2a);
+  transform: translateY(-1px);
 }
 
-.addBtn:active {
-  transform: scale(0.97);
+.swatchActive {
+  border-color: var(--color-brand, #b15c2a);
+  box-shadow: 0 0 0 2px rgba(177, 92, 42, 0.22);
 }
 
-.addBtn:focus-visible {
+.swatch:focus-visible {
   outline: 2px solid var(--color-brand, #b15c2a);
   outline-offset: 2px;
-}
-
-/* «Добавлено ✓» — спокойный зелёный успех */
-.addBtn.added,
-.addBtn.added:hover {
-  background: #3f7d4e;
-  box-shadow: 0 4px 12px rgba(63, 125, 78, 0.3);
 }
 
 /* Accessibility: без анимаций при reduced-motion */
@@ -196,7 +278,8 @@
   .imgFirst,
   .imgSecond,
   .quickView,
-  .addBtn {
+  .addFab,
+  .swatch {
     transition: none;
     transform: none;
   }

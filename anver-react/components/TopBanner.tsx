@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 // Счётчик подтверждён JS rec1480418391: дедлайн 2025-11-08 23:59:59, дни без паддинга,
 // часы/минуты/секунды с ведущим нулём; при завершении — «0 0 0 0».
 
-const DEADLINE = new Date("2025-11-08T23:59:59").getTime();
+const DEADLINE = new Date("2026-11-30T23:59:59").getTime();
 
 const DAY_MS = 86_400_000;
 const HOUR_MS = 3_600_000;

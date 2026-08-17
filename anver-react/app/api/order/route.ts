@@ -1,4 +1,9 @@
 import { getSupabaseClient } from "@/lib/supabase";
+import {
+  formatOrderMessage,
+  isTelegramConfigured,
+  sendTelegramMessage,
+} from "@/lib/telegram";
 
 export const runtime = "nodejs";
 
@@ -120,6 +125,27 @@ export async function POST(request: Request) {
     if (error) {
       console.error("[api/order] ошибка записи в orders:", error);
       return Response.json({ ok: false, error: "db_error" }, { status: 500 });
+    }
+
+    // Уведомление в Telegram (если настроено): отправка после успешной записи
+    // в БД, таймаут 8 с. Ошибка отправки не роняет приём заказа.
+    if (isTelegramConfigured()) {
+      const tgResult = await sendTelegramMessage(
+        formatOrderMessage({
+          id,
+          name,
+          contact,
+          method,
+          message,
+          items,
+          total,
+          currency: "MDL",
+          lang,
+        }),
+      );
+      if (!tgResult.ok) {
+        console.error("[api/order] заказ #" + id + " сохранён, но уведомление в Telegram не ушло:", tgResult.error);
+      }
     }
 
     return Response.json({ ok: true, id });

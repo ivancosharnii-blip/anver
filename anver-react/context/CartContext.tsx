@@ -17,6 +17,7 @@ export type CartItem = {
   mark?: string;
   image: string;
   color?: string;
+  size?: string;
   quantity: number;
 };
 
@@ -25,7 +26,12 @@ type CartContextValue = {
   count: number;
   total: number;
   isOpen: boolean;
-  addItem: (product: Product, color?: string, quantity?: number) => void;
+  addItem: (
+    product: Product,
+    color?: string,
+    quantity?: number,
+    size?: string,
+  ) => void;
   removeItem: (uid: number) => void;
   updateQuantity: (uid: number, quantity: number) => void;
   clear: () => void;
@@ -40,10 +46,14 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const addItem = useCallback(
-    (product: Product, color?: string, quantity = 1) => {
+    (product: Product, color?: string, quantity = 1, size?: string) => {
       setItems((prev) => {
+        // Цена позиции = цена выбранного размера (если есть sizeOptions), иначе базовая.
+        const chosen = product.sizeOptions?.find((s) => s.label === size);
+        const price = chosen ? chosen.price : product.price;
+
         const idx = prev.findIndex(
-          (i) => i.uid === product.uid && i.color === color,
+          (i) => i.uid === product.uid && i.color === color && i.size === size,
         );
         if (idx >= 0) {
           const next = [...prev];
@@ -55,10 +65,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
           {
             uid: product.uid,
             title: product.title,
-            price: product.price,
+            price,
             mark: product.mark,
             image: product.gallery[0] ?? "",
             color,
+            size,
             quantity,
           },
         ];

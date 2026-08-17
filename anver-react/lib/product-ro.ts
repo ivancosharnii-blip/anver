@@ -95,6 +95,28 @@ export const productRo: Record<number, ProductRo> = {
     descr:
       '<div style="font-size: 14px;" data-customstyle="yes">Satin Stripe</div>',
   },
+
+  // ── Кухня (Bucătărie — fețe de masă) ────────────────────────────────
+  90001: {
+    title: "Lavandă",
+    text:
+      "Față de masă cusută manual din bumbac 100% dens – caldă, plăcută la atingere și rezistentă.<br />Cant frumos finisat, cusătură îngrijită și țesătură naturală, care rezistă la spălări frecvente și își păstrează aspectul mult timp.<br />Fiecare produs îl coasem manual la Ceadîr-Lunga, cu atenție la detalii, pentru ca masa dumneavoastră să arate mereu îngrijită și primitoare.<br />Disponibilă în mai multe dimensiuni – alegeți-o pe cea potrivită pentru masa dumneavoastră.",
+  },
+  90002: {
+    title: "Provence",
+    text:
+      "Față de masă cusută manual din bumbac 100% dens – caldă, plăcută la atingere și rezistentă.<br />Cant frumos finisat, cusătură îngrijită și țesătură naturală, care rezistă la spălări frecvente și își păstrează aspectul mult timp.<br />Fiecare produs îl coasem manual la Ceadîr-Lunga, cu atenție la detalii, pentru ca masa dumneavoastră să arate mereu îngrijită și primitoare.<br />Disponibilă în mai multe dimensiuni – alegeți-o pe cea potrivită pentru masa dumneavoastră.",
+  },
+  90003: {
+    title: "Château",
+    text:
+      "Față de masă cusută manual din bumbac 100% dens – caldă, plăcută la atingere și rezistentă.<br />Cant frumos finisat, cusătură îngrijită și țesătură naturală, care rezistă la spălări frecvente și își păstrează aspectul mult timp.<br />Fiecare produs îl coasem manual la Ceadîr-Lunga, cu atenție la detalii, pentru ca masa dumneavoastră să arate mereu îngrijită și primitoare.<br />Disponibilă în mai multe dimensiuni – alegeți-o pe cea potrivită pentru masa dumneavoastră.",
+  },
+  90004: {
+    title: "Grădina de Lămâi",
+    text:
+      "Față de masă cusută manual din bumbac 100% dens – caldă, plăcută la atingere și rezistentă.<br />Cant frumos finisat, cusătură îngrijită și țesătură naturală, care rezistă la spălări frecvente și își păstrează aspectul mult timp.<br />Fiecare produs îl coasem manual la Ceadîr-Lunga, cu atenție la detalii, pentru ca masa dumneavoastră să arate mereu îngrijită și primitoare.<br />Disponibilă în mai multe dimensiuni – alegeți-o pe cea potrivită pentru masa dumneavoastră.",
+  },
 };
 
 // перевод бейджей скидок
@@ -106,4 +128,5 @@ export const productMarkRo: Record<string, string> = {
 // перевод названий опций
 export const optionTitleRo: Record<string, string> = {
   Цвет: "Culoare",
+  Размер: "Dimensiune",
 };

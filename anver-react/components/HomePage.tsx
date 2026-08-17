@@ -1,7 +1,7 @@
 "use client";
 
 import CatalogSection from "./CatalogSection";
-import { IMAGES } from "@/lib/site";
+import { IMAGES, RATING } from "@/lib/site";
 import { useLang } from "@/context/LanguageContext";
 
 // Преимущества — rec1496187971 (десктоп) / rec1496286691 (мобильный):
@@ -131,6 +131,42 @@ export default function HomePage() {
           background-size: contain;
           background-repeat: no-repeat;
           background-position: center;
+        }
+        .anv-hero__rating {
+          margin-top: 28px;
+          opacity: 0;
+          transform: translateY(16px);
+          animation: heroFadeIn 0.8s 0.6s ease forwards;
+        }
+        .anv-hero__rating-stars {
+          color: #d59c3f;
+          font-size: 20px;
+          letter-spacing: 3px;
+        }
+        .anv-hero__rating-text {
+          color: #ffffff;
+          font-size: 14px;
+          font-weight: 400;
+          margin-left: 10px;
+          opacity: 0.9;
+        }
+        @keyframes heroFadeIn {
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .anv-hero__title {
+          animation: heroFadeIn 0.8s ease forwards;
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        .anv-hero__descr {
+          animation: heroFadeIn 0.8s 0.2s ease forwards;
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        .anv-hero__btn {
+          animation: heroFadeIn 0.8s 0.4s ease forwards;
+          opacity: 0;
+          transform: translateY(20px);
         }
         .anv-hero__advantages {
           position: absolute;
@@ -330,6 +366,10 @@ export default function HomePage() {
             <span className="anv-hero__btn-icon" aria-hidden="true" />
             <span>{t("home.heroBtn")}</span>
           </a>
+          <div className="anv-hero__rating">
+            <span className="anv-hero__rating-stars">{RATING.stars}</span>
+            <span className="anv-hero__rating-text">{t("home.rating")}</span>
+          </div>
         </div>
 
         <div className="anv-hero__advantages">
@@ -365,6 +405,66 @@ export default function HomePage() {
         description={t("home.catStripeDescr")}
         anchor="bedding-stripe"
       />
+
+      {/* 4b. Кухня — скатерти */}
+      <section id="kitchen" className="section" style={{ paddingBottom: 0, background: "#fcf7f0" }}>
+        <style>{`.anv-kitchen-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 48px 20px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #fcf7f0 0%, #f5ede4 100%);
+  border: 1px solid #e8ddd0;
+}
+.anv-kitchen-cta h2 {
+  font-size: 28px;
+  font-weight: 500;
+  color: #242424;
+  margin-bottom: 12px;
+}
+.anv-kitchen-cta p {
+  font-size: 14px;
+  color: #808080;
+  max-width: 480px;
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
+.anv-kitchen-cta a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 36px;
+  background: #242424;
+  color: #fff;
+  border-radius: 30px;
+  font-size: 15px;
+  font-weight: 600;
+  transition: background 0.2s, transform 0.2s;
+}
+.anv-kitchen-cta a:hover {
+  background: #000;
+  transform: translateY(-2px);
+}
+.anv-kitchen-cta a:active {
+  transform: scale(0.97);
+}
+@media (max-width: 640px) {
+  .anv-kitchen-cta { padding: 32px 16px; }
+  .anv-kitchen-cta h2 { font-size: 22px; }
+}
+`}</style>
+        <div className="container">
+          <div className="anv-kitchen-cta">
+            <h2>{t("page.kitchen")}</h2>
+            <p>{t("page.kitchenDescr")}</p>
+            <a href="/kitchen">
+              {t("home.heroBtn")}
+            </a>
+          </div>
+        </div>
+      </section>
 
       {/* 5. Немного о нас */}
       <section className="section" style={{ background: "#ffffff" }}>

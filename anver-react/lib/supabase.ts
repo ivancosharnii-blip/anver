@@ -22,13 +22,44 @@ export type SupabaseResult<T = unknown> = {
 };
 
 /**
- * Минимальный интерфейс клиента — покрывает только используемые методы
- * (insert без select: Prefer: return=minimal — не требует SELECT-политики RLS).
- * Полные типы появятся после установки пакета.
+ * Цепочка запроса SELECT с фильтрацией, сортировкой и ограничением.
+ */
+export interface SupabaseQueryChain<T = unknown> {
+  eq(column: string, value: unknown): SupabaseQueryChain<T>;
+  order(column: string, opts?: { ascending?: boolean }): SupabaseQueryChain<T>;
+  limit(count: number): SupabaseQueryChain<T>;
+  then<TResult = SupabaseResult<T[]>>(
+    onfulfilled?: ((value: SupabaseResult<T[]>) => TResult) | null,
+    onrejected?: ((reason: unknown) => TResult) | null,
+  ): Promise<TResult>;
+}
+
+/**
+ * Минимальный интерфейс клиента — покрывает используемые методы.
+ * Полные типы появятся после установки пакета @supabase/supabase-js.
  */
 export interface SupabaseClientLike {
   from(table: string): {
+    /**
+     * INSERT без select: return=minimal — не требует SELECT-политики RLS.
+     */
     insert(values: Record<string, unknown>): Promise<SupabaseResult>;
+    /**
+     * SELECT с цепочкой фильтров.
+     */
+    select(columns?: string): SupabaseQueryChain;
+    /**
+     * UPDATE строк, удовлетворяющих условию (через eq).
+     */
+    update(values: Record<string, unknown>): {
+      eq(column: string, value: unknown): Promise<SupabaseResult>;
+    };
+    /**
+     * DELETE строк, удовлетворяющих условию (через eq).
+     */
+    delete(): {
+      eq(column: string, value: unknown): Promise<SupabaseResult>;
+    };
   };
 }
 

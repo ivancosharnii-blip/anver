@@ -21,6 +21,7 @@ const NAV = {
   clients: [
     { key: "footer.returns", href: "/contacts#returns" },
     { key: "footer.delivery", href: "/contacts#delivery" },
+    { key: "nav.reviews", href: "/reviews" },
   ],
 } as const;
 
@@ -88,7 +89,18 @@ function MainFooter() {
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 20px" }}>
         <div className="f-grid">
           <div className="f-left">
-            <Link href="/" className="f-logo" style={{ display: "inline-block", maxWidth: 120 }}>
+            <Link
+              href="/"
+              className="f-logo"
+              style={{ display: "inline-block", maxWidth: 120 }}
+              onClick={(e) => {
+                // Уже на главной — просто прокрутить вверх к началу страницы.
+                if (window.location.pathname === "/") {
+                  e.preventDefault();
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }
+              }}
+            >
               <img
                 src={IMAGES.logoFooter}
                 alt="Anver"

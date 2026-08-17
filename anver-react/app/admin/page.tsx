@@ -64,7 +64,24 @@ export default function AdminPage() {
   // Удаление фото
   const [photosProduct, setPhotosProduct] = useState<Product | null>(null);
 
+  // Отзывы на модерацию
+  type Review = {
+    id: string;
+    name: string;
+    text: string;
+    rating: number;
+    photo_url: string | null;
+    product_uid: string | null;
+    city: string | null;
+    moderated: boolean;
+    created_at: string;
+  };
+
+  const [pendingReviews, setPendingReviews] = useState<Review[] | null>(null);
+  const [reviewsLoading, setReviewsLoading] = useState(true);
+
   const reqId = useRef(0);
+  const reviewReqId = useRef(0);
   const firstLoad = useRef(true);
 
   const load = useCallback(async (query?: string) => {
@@ -98,6 +115,69 @@ export default function AdminPage() {
     firstLoad.current = false;
     return () => clearTimeout(t);
   }, [q, load]);
+
+  // Загрузка отзывов на модерацию
+  const loadReviews = useCallback(async () => {
+    const id = ++reviewReqId.current;
+    setReviewsLoading(true);
+    try {
+      const res = await fetch("/api/admin/reviews");
+      if (res.status === 401) {
+        window.location.href = "/admin/login";
+        return;
+      }
+      if (!res.ok) throw new Error("bad status " + res.status);
+      const data = (await res.json()) as { reviews?: Review[] };
+      if (reviewReqId.current !== id) return;
+      setPendingReviews(data.reviews ?? []);
+    } catch {
+      if (reviewReqId.current !== id) return;
+      setPendingReviews([]);
+    } finally {
+      if (reviewReqId.current === id) setReviewsLoading(false);
+    }
+  }, []);
+
+  // Загружаем отзывы при монтировании
+  useEffect(() => {
+    void loadReviews();
+  }, [loadReviews]);
+
+  const approveReview = async (id: string) => {
+    try {
+      const res = await fetch("/api/admin/reviews", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
+      });
+      if (res.status === 401) {
+        window.location.href = "/admin/login";
+        return;
+      }
+      if (!res.ok) throw new Error("bad status");
+      setToast({ message: "Отзыв одобрен", type: "ok" });
+      void loadReviews();
+    } catch {
+      setToast({ message: "Не удалось одобрить отзыв", type: "err" });
+    }
+  };
+
+  const rejectReview = async (id: string) => {
+    try {
+      const res = await fetch(`/api/admin/reviews?id=${encodeURIComponent(id)}`, {
+        method: "DELETE",
+      });
+      if (res.status === 401) {
+        window.location.href = "/admin/login";
+        return;
+      }
+      if (!res.ok) throw new Error("bad status");
+      setToast({ message: "Отзыв отклонён", type: "ok" });
+      void loadReviews();
+    } catch {
+      setToast({ message: "Не удалось отклонить отзыв", type: "err" });
+    }
+  };
 
   // Автоскрытие уведомлений.
   useEffect(() => {
@@ -500,7 +580,7 @@ export default function AdminPage() {
                         <img className="adm-thumb" src={p.gallery[0]} alt={p.title} />
                       ) : (
                         <div className="adm-thumb-empty" title="Нет фото">
-                          📷
+                          Фото
                         </div>
                       )}
                     </td>
@@ -751,6 +831,82 @@ export default function AdminPage() {
           </div>
         </Modal>
       )}
+
+      {/* Отзывы на модерации */}
+      <div className="adm-card" style={{ marginTop: 24 }}>
+        <div className="adm-header" style={{ padding: "14px 20px", marginBottom: 0 }}>
+          <h2 className="adm-title" style={{ fontSize: 18 }}>
+            Отзывы на модерации
+            {pendingReviews !== null && (
+              <span className="adm-count">{pendingReviews.length}</span>
+            )}
+          </h2>
+          <button className="adm-btn" type="button" onClick={() => void loadReviews()}>
+            Обновить
+          </button>
+        </div>
+        {reviewsLoading && pendingReviews === null ? (
+          <div className="adm-status">Загрузка отзывов…</div>
+        ) : pendingReviews === null || pendingReviews.length === 0 ? (
+          <div className="adm-status">Нет отзывов на модерации</div>
+        ) : (
+          <div className="adm-table-wrap">
+            <table className="adm-table">
+              <thead>
+                <tr>
+                  <th>Дата</th>
+                  <th>Имя</th>
+                  <th>Город</th>
+                  <th>Рейтинг</th>
+                  <th>Текст</th>
+                  <th>Товар</th>
+                  <th>Действия</th>
+                </tr>
+              </thead>
+              <tbody>
+                {pendingReviews.map((r) => (
+                  <tr key={r.id}>
+                    <td style={{ whiteSpace: "nowrap", fontSize: 13 }}>
+                      {new Date(r.created_at).toLocaleDateString("ru-RU", {
+                        day: "numeric",
+                        month: "short",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </td>
+                    <td className="adm-title-cell">{r.name}</td>
+                    <td>{r.city || "—"}</td>
+                    <td>{"★".repeat(r.rating) + "☆".repeat(5 - r.rating)}</td>
+                    <td style={{ maxWidth: 300, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                      {r.text}
+                    </td>
+                    <td style={{ fontSize: 13 }}>{r.product_uid || "—"}</td>
+                    <td>
+                      <div className="adm-actions">
+                        <button
+                          className="adm-link-btn"
+                          style={{ color: "#2e7d32" }}
+                          type="button"
+                          onClick={() => void approveReview(r.id)}
+                        >
+                          Одобрить
+                        </button>
+                        <button
+                          className="adm-link-btn adm-link-danger"
+                          type="button"
+                          onClick={() => void rejectReview(r.id)}
+                        >
+                          Отклонить
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
 
       <Toast message={toast?.message ?? ""} type={toast?.type ?? "ok"} />
     </div>

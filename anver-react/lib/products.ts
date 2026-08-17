@@ -4,6 +4,12 @@ export type ProductOption = {
   values: string[];
 };
 
+/** Вариант размера с собственной ценой (используется в разделе «Кухня»: у скатертей). */
+export type SizeOption = {
+  label: string;
+  price: number;
+};
+
 export type Product = {
   uid: number;
   title: string;
@@ -15,6 +21,8 @@ export type Product = {
   descr: string;
   gallery: string[];
   json_options: ProductOption[];
+  /** Варианты размера с ценами; при выборе цена товара обновляется. У постелей — нет. */
+  sizeOptions?: SizeOption[];
   partuids: number[];
   storepart: number;
   fabric: string;

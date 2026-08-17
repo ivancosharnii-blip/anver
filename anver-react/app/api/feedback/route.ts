@@ -1,4 +1,8 @@
 import { getSupabaseClient } from "@/lib/supabase";
+import {
+  isTelegramConfigured,
+  sendTelegramMessage,
+} from "@/lib/telegram";
 
 export const runtime = "nodejs";
 
@@ -69,9 +73,38 @@ export async function POST(request: Request) {
       return Response.json({ ok: false, error: "db_error" }, { status: 500 });
     }
 
+    // Уведомление в Telegram о новом сообщении обратной связи
+    if (isTelegramConfigured()) {
+      const tgMessage = [
+        `✉️ <b>Обратная связь</b>`,
+        `👤 <b>Имя:</b> ${escapeHtml(name)}`,
+        `📞 <b>Контакт:</b> ${escapeHtml(contact)}`,
+        message ? `📝 <b>Сообщение:</b> ${escapeHtml(message.length > 300 ? message.slice(0, 300) + "…" : message)}` : null,
+        `🌐 Язык: ${lang}`,
+      ]
+        .filter(Boolean)
+        .join("\n");
+
+      const tgResult = await sendTelegramMessage(tgMessage);
+      if (!tgResult.ok) {
+        console.error(
+          "[api/feedback] сообщение #" + id + " сохранено, но уведомление в Telegram не ушло:",
+          tgResult.error,
+        );
+      }
+    }
+
     return Response.json({ ok: true, id });
   } catch (err) {
     console.error("[api/feedback] непредвиденная ошибка:", err);
     return Response.json({ ok: false, error: "internal_error" }, { status: 500 });
   }
+
+/** Экранирует спецсимволы HTML для Telegram. */
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
 }

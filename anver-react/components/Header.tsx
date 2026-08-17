@@ -153,7 +153,18 @@ export default function Header() {
         `}</style>
 
         <div className="anver-hd__bar">
-          <Link href="/" className="anver-hd__brand" aria-label="Anver">
+          <Link
+            href="/"
+            className="anver-hd__brand"
+            aria-label="Anver"
+            onClick={(e) => {
+              // Уже на главной — просто прокрутить вверх к началу страницы.
+              if (pathname === "/") {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }
+            }}
+          >
             <img
               src="https://zlnwlaubmcmhbwqkchzq.supabase.co/storage/v1/object/public/anver-images/tild3936-6637-4939-b739-313337343731/anver_logo.svg"
               alt="Anver"
@@ -173,18 +184,15 @@ export default function Header() {
             {isHome ? (
               <>
                 <Link href="/#bedding">{t("nav.beddingHome")}</Link>
-                <span className="anver-hd__soon">{t("nav.kitchen")}</span>
+                <Link href="/kitchen">{t("nav.kitchen")}</Link>
+                <Link href="/reviews">{t("nav.reviews")}</Link>
                 <Link href="/contacts">{t("nav.contacts")}</Link>
               </>
             ) : (
               <>
                 <Link href="/#bedding">{t("nav.bedding")}</Link>
-                <span className="anver-hd__soon">{t("nav.kitchen")}</span>
-                <Link href="/gift">{t("nav.gift")}</Link>
-                <Link href="/sale" className="anver-hd__sale">
-                  {t("nav.sale")}
-                  <span className="anver-hd__badge">{t("nav.saleBadge")}</span>
-                </Link>
+                <Link href="/kitchen">{t("nav.kitchen")}</Link>
+                <Link href="/reviews">{t("nav.reviews")}</Link>
                 <Link href="/contacts">{t("nav.contacts")}</Link>
               </>
             )}

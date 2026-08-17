@@ -7,11 +7,12 @@ export const ru = {
     home: "Главная",
     beddingHome: "Постельное белье",
     bedding: "Постель",
-    kitchen: "Кухня (скоро)",
+    kitchen: "Кухня",
     gift: "Подарок",
     sale: "Распродажа",
     saleBadge: "до -50%",
     contacts: "Контакты",
+    reviews: "Отзывы",
     constructor: "Конструктор белья (скоро)",
     categories: "Категории",
     fabrics: "Ткани",
@@ -100,6 +101,19 @@ export const ru = {
     addToCart: "Добавить в корзину",
     close: "Закрыть",
     photo: "Фото",
+    size: "Размер",
+    sizeTable: "Таблица размеров",
+    composition: "Состав",
+    care: "Уход",
+    delivery: "Доставка и возврат",
+    compositionText: "100% хлопок — натуральная ткань, которая дышит, мягко касается кожи и служит долго. Без синтетики, без примесей.",
+    careText: "Стирка при 40°C • Отжим 800 об/мин • Гладить при средней температуре • Не отбеливать • Не сушить в машине",
+    deliveryText: "Доставка по Молдове 1–3 дня курьером FanCourier. Бесплатно от 1000 лей. Возврат и обмен в течение 14 дней.",
+  },
+  guarantees: {
+    shipping: "Бесплатно от 1000 лей",
+    returns: "Возврат 14 дней",
+    cotton: "Только 100% хлопок",
   },
   cat: {
     title: "Категории",
@@ -122,6 +136,9 @@ export const ru = {
     duvet: "Пододеяльники и покрывала",
     duvetDescr:
       "Пододеяльники из 100% хлопка: Ранфорс, Сатин и Сатин Страйп. Дышащая ткань, аккуратный крой, ручная работа в Чадыр-Лунге.",
+    kitchen: "Кухня",
+    kitchenDescr:
+      "Скатерти из 100% хлопка. Тёплый домашний текстиль ручной работы для вашей кухни.",
   },
   contacts: {
     breadcrumbsAria: "Хлебные крошки",
@@ -261,11 +278,13 @@ export const ru = {
   card: {
     addToCart: "Добавить в корзину",
     added: "Добавлено ✓",
+    color: "Расцветка",
   },
   seo: {
     homeTitle: "Anver — постельное бельё из 100% хлопка",
     homeDescr:
       "Постельное бельё из 100% хлопка: Ранфорс, Сатин, Сатин Страйп. Сшито вручную в Молдове. Бесплатная доставка по Молдове от 1000 лей.",
+    kitchen: "Кухня — скатерти из 100% хлопка",
     ogDescr:
       "Постельное бельё из 100% хлопка: Ранфорс, Сатин, Сатин Страйп. Сшито вручную в Молдове.",
     ranforce: "Ранфорс",
@@ -283,6 +302,7 @@ export const ru = {
     duvet: "Пододеяльники и покрывала",
     contacts: "Контакты",
     feedback: "Обратная связь",
+    reviews: "Отзывы",
     success: "Заказ принят",
   },
 } as const;
@@ -293,11 +313,12 @@ export const ro = {
     home: "Acasă",
     beddingHome: "Lenjerie de pat",
     bedding: "Lenjerie",
-    kitchen: "Bucătărie (în curând)",
+    kitchen: "Bucătărie",
     gift: "Cadou",
     sale: "Reduceri",
     saleBadge: "până la -50%",
     contacts: "Contacte",
+    reviews: "Recenzii",
     constructor: "Configurator lenjerie (în curând)",
     categories: "Categorii",
     fabrics: "Țesături",
@@ -387,6 +408,19 @@ export const ro = {
     addToCart: "Adaugă în coș",
     close: "Închide",
     photo: "Foto",
+    size: "Dimensiune",
+    sizeTable: "Tabel dimensiuni",
+    composition: "Compoziție",
+    care: "Îngrijire",
+    delivery: "Livrare și returnare",
+    compositionText: "Bumbac 100% — țesătură naturală care respiră, atinge ușor pielea și durează mult. Fără sintetici, fără impurități.",
+    careText: "Spălare la 40°C • Centrifugare 800 rpm • Călcat la temperatură medie • Nu înălbiți • Nu uscați în mașină",
+    deliveryText: "Livrare în Moldova 1–3 zile cu FanCourier. Gratuit de la 1000 lei. Returnare și schimb în 14 zile.",
+  },
+  guarantees: {
+    shipping: "Gratuit de la 1000 lei",
+    returns: "Returnare 14 zile",
+    cotton: "100% bumbac",
   },
   cat: {
     title: "Categorii",
@@ -410,6 +444,9 @@ export const ro = {
     duvet: "Huse de pilota și cuverturi",
     duvetDescr:
       "Huse de pilota din bumbac 100%: Ranforce, Satin și Satin Stripes. Țesătură respirabilă, croi îngrijit, lucrate manual la Ceadîr-Lunga.",
+    kitchen: "Bucătărie",
+    kitchenDescr:
+      "Fețe de masă din bumbac 100%. Textil cald și autentic pentru bucătăria dumneavoastră, lucrat manual.",
   },
   contacts: {
     breadcrumbsAria: "Breadcrumb",
@@ -549,11 +586,13 @@ export const ro = {
   card: {
     addToCart: "Adaugă în coș",
     added: "Adăugat ✓",
+    color: "Culoare",
   },
   seo: {
     homeTitle: "Anver — lenjerie de pat din bumbac 100%",
     homeDescr:
       "Lenjerie de pat din bumbac 100%: Ranforce, Satin, Satin Stripes. Cusută manual în Moldova. Livrare gratuită în Moldova de la 1000 lei.",
+    kitchen: "Bucătărie — fețe de masă din bumbac 100%",
     ogDescr:
       "Lenjerie de pat din bumbac 100%: Ranforce, Satin, Satin Stripes. Cusută manual în Moldova.",
     ranforce: "Ranforce",
@@ -571,6 +610,7 @@ export const ro = {
     duvet: "Huse de pilota și cuverturi",
     contacts: "Contacte",
     feedback: "Feedback",
+    reviews: "Recenzii",
     success: "Comandă acceptată",
   },
 } as const;
