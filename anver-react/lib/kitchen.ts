@@ -28,11 +28,7 @@ const COMMON_TEXT =
   "Каждое изделие мы шьём вручную в Чадыр-Лунге, с вниманием к деталям, чтобы ваш стол выглядел опрятно и уютно каждый день.<br />" +
   "Доступно несколько размеров — подберите удобный под ваш стол.";
 
-/** Карта соответствия: imgIndex main → номер hover-файла */
-const HOVER_MAP: Record<number, number> = { 1: 2, 2: 1, 3: 4, 4: 3 };
-
 function kitchen(title: string, uid: number, imgIndex: number): Product {
-  const hoverIdx = HOVER_MAP[imgIndex];
   return {
     uid,
     title,
@@ -44,7 +40,7 @@ function kitchen(title: string, uid: number, imgIndex: number): Product {
     descr: "",
     gallery: [
       `/kitchen/kitchen-${imgIndex}-main.png`,
-      `/kitchen/kitchen-${hoverIdx}-hover.png`,
+      `/kitchen/kitchen-${imgIndex}-hover.png`,
     ],
     json_options: [],
     sizeOptions: SIZES,
